@@ -36,14 +36,34 @@ namespace Converter
 
             //Base64ByteArrayToBigInteger("OJAN");
 
-            Base64HexStringToString("VG9rZW4gTmFtZSBNaWdyYXRlIFRlc3Q=");
+            //Base64HexStringToString("VHJhbnNmZXI=");
 
             //Base64ByteArrayToAddress("4xN+3bpfZIXK0zSnm9tnxDJzFx8=");
 
+            Console.WriteLine(Convert.FromBase64String("MKBYO60q+NadAS7Yvkd0S4+E/9U=").ToArray().ToHexString());
+            Console.WriteLine(Convert.FromBase64String("VvwAK/RVX3xIoY/dnK3hANtiYHU=").ToArray().ToHexString());
+            Console.WriteLine(Convert.FromBase64String("VvwAK/RVX3xIoY/dnK3hANtiYHU=").ToArray().ToHexString());
+
+            //BigAndLittleEndExchange("9bde8f209c88dd0e7ca3bf0af0f476cdd8207789");
 
             //LoadScript("E:\\neo_code\\neo-devpack-dotnet-nep5-template\\templates\\Template.NEP5.CSharp\\bin\\Debug\\netstandard2.1\\Template.NEP5.CSharp.nef");
 
             Console.ReadKey();
+        }
+
+        private static void BigAndLittleEndExchange(string str)
+        {
+            //String args[1] = "c97e324bac15a4ea589f423e4b29a7210b8fad09";
+            try
+            {
+                String reverse = str.HexToBytes().Reverse().ToArray().ToHexString();
+                Console.WriteLine("LitteleEnd <=> BigEnd: " + reverse);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {Environment.NewLine}{e.Message}");
+            }
+            Console.WriteLine();
         }
 
         static void Base64ByteArrayToBigInteger(string str)
