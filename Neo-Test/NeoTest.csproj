@@ -6,8 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\neo_code\neo-vm\src\neo-vm\neo-vm.csproj" />
-    <ProjectReference Include="..\..\..\neo_code\neo\src\neo\neo.csproj" />
+    <PackageReference Include="Neo" Version="3.0.0-CI00872" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="RpcClient">
+      <HintPath>RpcClient.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

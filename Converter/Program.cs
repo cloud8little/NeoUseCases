@@ -38,17 +38,19 @@ namespace Converter
 
             //Base64HexStringToString("VIQFA");
 
-            //Base64ByteArrayToAddress("4xN+3bpfZIXK0zSnm9tnxDJzFx8=");
+            //Base64ByteArrayToAddress("iXcg2M129PAKv6N8Dt2InCCP3ps7fTcRxvDM+bHcqQPRv6HYlvEjjPp5djuGdntCaHI0n9L9vM8WLuIg");
 
-            //Console.WriteLine(Convert.FromBase64String("IQFA"));
+            Console.WriteLine(Convert.FromBase64String("iXcg2M129PAKv6N8Dt2InCCP3ps7fTcRxvDM+bHcqQPRv6HYlvEjjPp5djuGdntCaHI0n9L9vM8WLuIg").ToArray().ToHexString());
 
-            Console.WriteLine(BytesAsString("a3dcf73fe594e5ecd52746e1cfab2da18387d2a2".HexToBytes().Reverse().ToArray()));
+            //Console.WriteLine(BytesAsString("a3dcf73fe594e5ecd52746e1cfab2da18387d2a2".HexToBytes().Reverse().ToArray()));
 
             //Console.WriteLine(BytesAsString("a3dcf73fe594e5ecd52746e1cfab2da18387d2a2".HexToBytes()));
 
-            
 
-            //Console.WriteLine(Convert.FromBase64String("MKBYO60q+NadAS7Yvkd0S4+E/9U=").ToArray().ToHexString());
+
+           //Console.WriteLine(Encoding.Default.GetString(Convert.FromBase64String("iXcg2M129PAKv6N8Dt2InCCP3ps7fTcRxvDM+bHcqQPRv6HYlvEjjPp5djuGdntCaHI0n9L9vM8WLuIg").ToArray()));
+            var aa = Convert.FromBase64String("EiMy").ToArray();
+
             //Console.WriteLine(Convert.FromBase64String("VvwAK/RVX3xIoY/dnK3hANtiYHU=").ToArray().ToHexString());
             //Console.WriteLine(Convert.FromBase64String("VvwAK/RVX3xIoY/dnK3hANtiYHU=").ToArray().ToHexString());
 

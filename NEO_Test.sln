@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Converter", "Converter\Conv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "neo", "..\..\neo_code\neo\src\neo\neo.csproj", "{FE39A370-4915-4C0B-AEB6-ABA99A28CF91}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContractTest", "ContractTest\ContractTest.csproj", "{B857B1F6-EF91-41DD-A205-07004EFDB948}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeoTest", "ContractTest\NeoTest.csproj", "{B857B1F6-EF91-41DD-A205-07004EFDB948}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "neo-vm", "..\..\neo_code\neo-vm\src\neo-vm\neo-vm.csproj", "{09827171-93CA-42CE-8F75-B2B1BC9B1E8B}"
 EndProject
