@@ -18,10 +18,10 @@ namespace Converter
         {
             Console.WriteLine("Hello World!");
 
-            //string address = "Ngcdvsr33fqCJrA1eLXb48YzTqRT9UN6NC";
-            //UInt160 scriptHash = address.ToScriptHash();
-            //Console.WriteLine(scriptHash.ToString());
-            //string addrHash = scriptHash.ToString();
+            string address = "NfxTs1w2q9PqkQmExYgsqQzpXDTg4QcuqX";
+            UInt160 scriptHash = address.ToScriptHash();
+            Console.WriteLine(scriptHash.ToString());
+            string addrHash = scriptHash.ToString();
 
             ////big-endian 2 little-endian
             //string littleEndianHash = addrHash.Remove(0, 2).HexToBytes().Reverse().ToArray().ToHexString();
@@ -40,16 +40,16 @@ namespace Converter
 
             //Base64ByteArrayToAddress("iXcg2M129PAKv6N8Dt2InCCP3ps7fTcRxvDM+bHcqQPRv6HYlvEjjPp5djuGdntCaHI0n9L9vM8WLuIg");
 
-            Console.WriteLine(Convert.FromBase64String("iXcg2M129PAKv6N8Dt2InCCP3ps7fTcRxvDM+bHcqQPRv6HYlvEjjPp5djuGdntCaHI0n9L9vM8WLuIg").ToArray().ToHexString());
+            //Console.WriteLine(Encoding.Default.GetString(Convert.FromBase64String("Z25haHpwaXJn").ToArray()));
 
             //Console.WriteLine(BytesAsString("a3dcf73fe594e5ecd52746e1cfab2da18387d2a2".HexToBytes().Reverse().ToArray()));
 
-            //Console.WriteLine(BytesAsString("a3dcf73fe594e5ecd52746e1cfab2da18387d2a2".HexToBytes()));
+            Console.WriteLine(ScriptHashAsByteArray("0x20e22e16cfbcfdd29f347268427b76863b7679fa"));
 
 
 
            //Console.WriteLine(Encoding.Default.GetString(Convert.FromBase64String("iXcg2M129PAKv6N8Dt2InCCP3ps7fTcRxvDM+bHcqQPRv6HYlvEjjPp5djuGdntCaHI0n9L9vM8WLuIg").ToArray()));
-            var aa = Convert.FromBase64String("EiMy").ToArray();
+            //var aa = Convert.FromBase64String("EiMy").ToArray();
 
             //Console.WriteLine(Convert.FromBase64String("VvwAK/RVX3xIoY/dnK3hANtiYHU=").ToArray().ToHexString());
             //Console.WriteLine(Convert.FromBase64String("VvwAK/RVX3xIoY/dnK3hANtiYHU=").ToArray().ToHexString());
@@ -59,6 +59,26 @@ namespace Converter
             //LoadScript("E:\\neo_code\\neo-devpack-dotnet-nep5-template\\templates\\Template.NEP5.CSharp\\bin\\Debug\\netstandard2.1\\Template.NEP5.CSharp.nef");
 
             Console.ReadKey();
+        }
+
+        private static string ScriptHashAsByteArray(string scriptHash)
+        {
+            if (scriptHash.StartsWith("0x"))
+                scriptHash = scriptHash.Substring(2);
+
+            string str = "new byte[] { ";
+
+            while (scriptHash.Length > 0)
+            {
+                str += "0x" + scriptHash.Substring(0, 2);
+                if (scriptHash.Length > 2)
+                    str += ", ";
+                scriptHash = scriptHash.Substring(2);
+            }
+
+            str += " }";
+
+            return str;
         }
 
         private static string BytesAsString(byte[] bytes)
@@ -124,7 +144,7 @@ namespace Converter
                 throw new ArgumentException(nameof(manifestFilePath));
             }
 
-            var manifest = ContractManifest.Parse(File.ReadAllText(manifestFilePath));
+            var manifest = ContractManifest.Parse(File.ReadAllBytes(manifestFilePath));
 
             info = new FileInfo(nefFilePath);
             if (!info.Exists || info.Length >= Transaction.MaxTransactionSize)
