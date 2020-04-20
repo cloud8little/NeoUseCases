@@ -1,23 +1,29 @@
 using Neo;
 using Neo.Network.RPC;
+using RpcClientTest;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace TestRpcClient
 {
-    class Test_PolicyAPI
+    class Test_PolicyAPI : TestBase
     {
         PolicyAPI policyAPI;
 
-        public void Test(RpcClient client)
+        public Test_PolicyAPI(RpcClient rpcClient)
         {
-            policyAPI = new PolicyAPI(client);
-            uint maxTransactionsPerBlock = policyAPI.GetMaxTransactionsPerBlock();
-            uint maxBlockSize = policyAPI.GetMaxBlockSize();
-            long feePerByte = policyAPI.GetFeePerByte();
-            UInt160[] blockedAccounts = policyAPI.GetBlockedAccounts();
+            policyAPI = new PolicyAPI(rpcClient);
+            RpcClient = rpcClient;
         }
+
+        public override void Run()
+        {
+            Console.WriteLine(" maxTransactionsPerBlock:" + policyAPI.GetMaxTransactionsPerBlock());
+            Console.WriteLine(" maxBlockSize:" + policyAPI.GetMaxBlockSize());
+            Console.WriteLine(" feePerByte:" + policyAPI.GetFeePerByte());
+            Console.WriteLine(" blockedAccounts:" + policyAPI.GetBlockedAccounts());
+        }                
         
     }
 }

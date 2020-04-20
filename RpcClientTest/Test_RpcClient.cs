@@ -45,15 +45,15 @@ namespace TestRpcClient
             //GetRawMempoolBoth + see Test_Wallet_and_Plugins()
 
             //GetRawTransactionHex
-            string rawTransactionHex = rpcClient.GetRawTransactionHex("0x1482b5331030ebf381c27fb9667a3208dd367f4a504eb51ae03f994ac08a63bf");
+            string rawTransactionHex = rpcClient.GetRawTransactionHex("0xb8b7ee5108f50fd75faa6d36acb65f666b9841e619d05b4402cf156ca0864821");
             //GetRawTransaction
-            RpcTransaction rawTransaction = rpcClient.GetRawTransaction("0x1482b5331030ebf381c27fb9667a3208dd367f4a504eb51ae03f994ac08a63bf");
+            RpcTransaction rawTransaction = rpcClient.GetRawTransaction("0xb8b7ee5108f50fd75faa6d36acb65f666b9841e619d05b4402cf156ca0864821");
             //GetTransactionHeight
-            uint transactionHeight = rpcClient.GetTransactionHeight("0x1482b5331030ebf381c27fb9667a3208dd367f4a504eb51ae03f994ac08a63bf");
+            uint transactionHeight = rpcClient.GetTransactionHeight("0xb8b7ee5108f50fd75faa6d36acb65f666b9841e619d05b4402cf156ca0864821");
 
             //GetStorage+Needfix
-            string storage_fromHash = rpcClient.GetStorage(NativeContract.NEO.Hash.ToString(), "14794f567b5d2d003045beeb3771a19ee618dc68d1");
-            string storage_fromId = rpcClient.GetStorage(NativeContract.NEO.Id.ToString(), "14794f567b5d2d003045beeb3771a19ee618dc68d1");
+            //var storage = rpcClient.GetStorage(NativeContract.NEO.Hash.ToString(), "746f74616c537570706c79");
+            
             //GetValidators
             RpcValidator[] validators = rpcClient.GetValidators();
         }
@@ -108,12 +108,12 @@ namespace TestRpcClient
             //CloseWallet + when no wallet is opened
             Boolean closeResult = rpcClient.CloseWallet();
             //OpenWallet
-            Boolean openwallet = rpcClient.OpenWallet("1.json", "1");
+            Boolean openwallet = rpcClient.OpenWallet("test.json", "123");
             //DumpPrivKey
             //string privkey_null = rpcClient.DumpPrivKey("");
             //string privkey_falseFormat = rpcClient.DumpPrivKey("AcDZPbtcK8djLk5ZXLkps9XL7ee45RHkBB");
             //string privkey_addrNotInTheWallet = rpcClient.DumpPrivKey("NWyPzTPZ8sZEMHa4WC6FfdJ1ieTamTvKiE");
-            string privkey_true = rpcClient.DumpPrivKey("NYzbJ4vhBXmk9QBDtpCiVgF98QJxsJBYFC");
+            string privkey_true = rpcClient.DumpPrivKey("NikMd2j2bgVr8HzYgoJjbnwUPyXWnzjDCM");
             //GetBalance
             BigDecimal walletBalance = rpcClient.GetBalance(NativeContract.GAS.Hash.ToString());
             //GetNewAddress
@@ -135,7 +135,7 @@ namespace TestRpcClient
             //ListAddress
             List<RpcAccount> addresses = rpcClient.ListAddress();
             //SendFrom
-            JObject sendFromResult = rpcClient.SendFrom(NativeContract.GAS.Hash.ToString(), "NYzbJ4vhBXmk9QBDtpCiVgF98QJxsJBYFC", "NWyPzTPZ8sZEMHa4WC6FfdJ1ieTamTvKiE", "0.00000001");
+            JObject sendFromResult = rpcClient.SendFrom(NativeContract.GAS.Hash.ToString(), "NikMd2j2bgVr8HzYgoJjbnwUPyXWnzjDCM", "NWyPzTPZ8sZEMHa4WC6FfdJ1ieTamTvKiE", "0.0001");
             WaitTransaction(rpcClient, sendFromResult["hash"].AsString())
                .ContinueWith(async (p) => Console.WriteLine($"Transaction is confirmed in block {(await p).BlockHash}"));
 
@@ -149,7 +149,7 @@ namespace TestRpcClient
             rpcTransferOut2.Value = "1";
             rpcTransferOut2.ScriptHash = "NWyPzTPZ8sZEMHa4WC6FfdJ1ieTamTvKiE".ToScriptHash();
             IEnumerable<RpcTransferOut> rpcTransferOuts = new RpcTransferOut[2] { rpcTransferOut1, rpcTransferOut2 };
-            JObject sendMany_FromIsSpecified = rpcClient.SendMany("NYzbJ4vhBXmk9QBDtpCiVgF98QJxsJBYFC", rpcTransferOuts);
+            JObject sendMany_FromIsSpecified = rpcClient.SendMany("NikMd2j2bgVr8HzYgoJjbnwUPyXWnzjDCM", rpcTransferOuts);
             JObject sendMany_FromIsNull = rpcClient.SendMany("",rpcTransferOuts);
 
             //SendToAddress
@@ -162,7 +162,7 @@ namespace TestRpcClient
             //GetRawMempoolBoth
             RpcRawMemPool mempoolBoth = rpcClient.GetRawMempoolBoth();
             //GetApplicationLog
-            RpcApplicationLog applicationLog = rpcClient.GetApplicationLog(sendToAddress_txHash);
+            RpcApplicationLog applicationLog = rpcClient.GetApplicationLog("0x3e9a33142c42453301b8cd07540f543e6c9f0e23bcf88b37484b21b2d4cc822b");
             //GetNep5Balances
             RpcNep5Balances nep5Balances = rpcClient.GetNep5Balances("NWyPzTPZ8sZEMHa4WC6FfdJ1ieTamTvKiE");
             //GetNep5Transfers

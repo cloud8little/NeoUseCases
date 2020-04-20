@@ -5,8 +5,4 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\neo_code\neo\src\neo\neo.csproj" />
-  </ItemGroup>
-
 </Project>

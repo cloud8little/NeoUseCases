@@ -1,7 +1,14 @@
 {"groups":[],"features":{"storage":true,"payable":true},"abi":{
-    "hash":"0xc1c07f2497a147ea1fb8971df94bf899779bdc6d",
+    "hash":"0x69fc86eee2bae45f31a7f5768576e82e4b49c53d",
     "methods":
     [
+        {
+            "name":"deploy",
+            "parameters":
+            [
+            ],
+            "returnType":"Boolean"
+        },
         {
             "name":"migrate",
             "parameters":
@@ -19,6 +26,13 @@
         },
         {
             "name":"destroy",
+            "parameters":
+            [
+            ],
+            "returnType":"Boolean"
+        },
+        {
+            "name":"mint",
             "parameters":
             [
             ],
@@ -46,20 +60,6 @@
             "returnType":"Integer"
         },
         {
-            "name":"maxSupply",
-            "parameters":
-            [
-            ],
-            "returnType":"Integer"
-        },
-        {
-            "name":"initialSupply",
-            "parameters":
-            [
-            ],
-            "returnType":"Integer"
-        },
-        {
             "name":"supportedStandards",
             "parameters":
             [
@@ -67,18 +67,41 @@
             "returnType":"Array"
         },
         {
-            "name":"tokensPerNEO",
+            "name":"totalSupply",
             "parameters":
             [
             ],
             "returnType":"Integer"
         },
         {
-            "name":"tokensPerGAS",
+            "name":"balanceOf",
             "parameters":
             [
+                {
+                    "name":"account",
+                    "type":"ByteArray"
+                }
             ],
             "returnType":"Integer"
+        },
+        {
+            "name":"transfer",
+            "parameters":
+            [
+                {
+                    "name":"from",
+                    "type":"ByteArray"
+                },
+                {
+                    "name":"to",
+                    "type":"ByteArray"
+                },
+                {
+                    "name":"amount",
+                    "type":"Integer"
+                }
+            ],
+            "returnType":"Boolean"
         }
     ],
     "entryPoint":
@@ -118,4 +141,4 @@
             ]
         }
     ]
-},"permissions":[{"contract":"*","methods":"*"}],"trusts":[],"safeMethods":[]}
+},"permissions":[{"contract":"*","methods":"*"}],"trusts":[],"safeMethods":[],"extra":{"Author":"Neo","Email":"dev@neo.org","Description":"This is a NEP5 example"}}

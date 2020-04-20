@@ -23,25 +23,26 @@ namespace TestRpcClient
         {
             RpcClient rpcClient = new RpcClient("http://localhost:10332");
 
-            Test_WalletAPI test_WalletAPI = new Test_WalletAPI(rpcClient);
-            test_WalletAPI.Test();
+            //Test_WalletAPI test_WalletAPI = new Test_WalletAPI(rpcClient);
+            //test_WalletAPI.Run();
 
+            //Test_ContractClient test_ContractClient = new Test_ContractClient(rpcClient);
+            //test_ContractClient.Run();
 
+            Test_Nep5API test_Nep5API = new Test_Nep5API(rpcClient);
+            test_Nep5API.Run();
+
+            //Test_PolicyAPI test_PolicyAPI = new Test_PolicyAPI(rpcClient);
+            //test_PolicyAPI.Run();
 
             //Test_RpcClient test_RpcClient = new Test_RpcClient();
-
             //test_RpcClient.Test_Blockchain(rpcClient);
-
             //test_RpcClient.Test_Node(rpcClient);
-
             //test_RpcClient.Test_SmartContract(rpcClient);
-
             //test_RpcClient.Test_Utilities(rpcClient);
-
             //test_RpcClient.Test_Wallet_and_Plugins(rpcClient);
 
-            //Test_PolicyAPI test_PolicyAPI = new Test_PolicyAPI();
-            //test_PolicyAPI.Test(rpcClient);
+
 
             //Test_Nep5API test_Nep5API = new Test_Nep5API();
             //test_Nep5API.Test_Nep5TokenInfo(rpcClient);

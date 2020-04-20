@@ -5,15 +5,15 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Converter", "Converter\Converter.csproj", "{2455F8BF-45ED-46D8-B964-348C3655235C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "neo", "..\..\neo_code\neo\src\neo\neo.csproj", "{FE39A370-4915-4C0B-AEB6-ABA99A28CF91}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeoTest", "NeoTest\NeoTest.csproj", "{B857B1F6-EF91-41DD-A205-07004EFDB948}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "neo-vm", "..\..\neo_code\neo-vm\src\neo-vm\neo-vm.csproj", "{09827171-93CA-42CE-8F75-B2B1BC9B1E8B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RpcClientTest", "RpcClientTest\RpcClientTest.csproj", "{F865C768-391B-4E78-8B6D-DB816A31CEED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RpcClient", "..\..\PR-Test\neo-modules-add-multi-sig-transfer\src\RpcClient\RpcClient.csproj", "{15E4AA34-7CD4-4A7C-A633-BAED8C5B6CBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RpcClient", "..\..\PR-Test\preview2\neo-modules-3.0.0-preview2\src\RpcClient\RpcClient.csproj", "{84E69DC8-81BB-419A-BF23-5818C61D6407}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "neo", "..\..\PR-Test\preview2\neo-3.0.0-preview2\src\neo\neo.csproj", "{66762C3E-55F2-47E8-8B87-4117E45DA892}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +25,6 @@ Global
 		{2455F8BF-45ED-46D8-B964-348C3655235C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2455F8BF-45ED-46D8-B964-348C3655235C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2455F8BF-45ED-46D8-B964-348C3655235C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FE39A370-4915-4C0B-AEB6-ABA99A28CF91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FE39A370-4915-4C0B-AEB6-ABA99A28CF91}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FE39A370-4915-4C0B-AEB6-ABA99A28CF91}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FE39A370-4915-4C0B-AEB6-ABA99A28CF91}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B857B1F6-EF91-41DD-A205-07004EFDB948}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B857B1F6-EF91-41DD-A205-07004EFDB948}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B857B1F6-EF91-41DD-A205-07004EFDB948}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,10 +37,14 @@ Global
 		{F865C768-391B-4E78-8B6D-DB816A31CEED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F865C768-391B-4E78-8B6D-DB816A31CEED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F865C768-391B-4E78-8B6D-DB816A31CEED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{15E4AA34-7CD4-4A7C-A633-BAED8C5B6CBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15E4AA34-7CD4-4A7C-A633-BAED8C5B6CBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{15E4AA34-7CD4-4A7C-A633-BAED8C5B6CBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15E4AA34-7CD4-4A7C-A633-BAED8C5B6CBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84E69DC8-81BB-419A-BF23-5818C61D6407}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84E69DC8-81BB-419A-BF23-5818C61D6407}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84E69DC8-81BB-419A-BF23-5818C61D6407}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84E69DC8-81BB-419A-BF23-5818C61D6407}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66762C3E-55F2-47E8-8B87-4117E45DA892}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66762C3E-55F2-47E8-8B87-4117E45DA892}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66762C3E-55F2-47E8-8B87-4117E45DA892}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66762C3E-55F2-47E8-8B87-4117E45DA892}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

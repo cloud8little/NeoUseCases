@@ -8,7 +8,7 @@ using System.Text;
 
 namespace RpcClientTest
 {
-    class TestBase
+    abstract class TestBase
     {
         //address: NikMd2j2bgVr8HzYgoJjbnwUPyXWnzjDCM
         //pubkey: 0336df43a1a74b2d2cedb97f9919489621dd2e2b37276361474c7030ffc25e2aa7
@@ -22,7 +22,7 @@ namespace RpcClientTest
         //ScriptHash: 0x50255c4a704b280d1009cacd275216e1f070798f
         public KeyPair keyPair1 = Neo.Network.RPC.Utility.GetKeyPair("Kx4G77Esuo9b8wXyDeagvJxWKPw7kK5GfVR1A5JDFqxtbNGRiWzu");
 
-        //address: NiZgkmpxzXCgewK5rq57572FPnZX2iHdb5
+        //address:  
         //pubkey: 02bee9d67363d5d5834c5b307994e7e6b5411b4653ddb3c4fe74b270e1418f6a15
         //ScriptHash: 0x87e3b7c7007cc71f3482f29d2ceed612addb74f8
         public KeyPair keyPair2 = Neo.Network.RPC.Utility.GetKeyPair("L2F7F6HY3CtLZPUwpLeqFkfGVmTchjEBTozi9gB1NScv3aiRoEfa");
@@ -49,9 +49,7 @@ namespace RpcClientTest
 
         public RpcClient RpcClient;
 
-        public TestBase(RpcClient rpcClient)
-        {
-            RpcClient = rpcClient;
-        }
+        public abstract void Run();
+        
     }
 }

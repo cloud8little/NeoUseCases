@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\PR-Test\neo-modules-add-multi-sig-transfer\src\RpcClient\RpcClient.csproj" />
+    <ProjectReference Include="..\..\..\PR-Test\preview2\neo-modules-3.0.0-preview2\src\RpcClient\RpcClient.csproj" />
   </ItemGroup>
 
 </Project>
