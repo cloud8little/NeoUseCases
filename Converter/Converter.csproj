@@ -5,4 +5,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\PR-Test\preview2\neo-3.0.0-preview2\src\neo\neo.csproj" />
+  </ItemGroup>
+
 </Project>

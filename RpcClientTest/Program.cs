@@ -21,16 +21,16 @@ namespace TestRpcClient
     {
         static void Main(string[] args)
         {
-            RpcClient rpcClient = new RpcClient("http://localhost:10332");
+            RpcClient rpcClient = new RpcClient("http://localhost:20332");
 
             //Test_WalletAPI test_WalletAPI = new Test_WalletAPI(rpcClient);
             //test_WalletAPI.Run();
 
-            //Test_ContractClient test_ContractClient = new Test_ContractClient(rpcClient);
-            //test_ContractClient.Run();
+            Test_ContractClient test_ContractClient = new Test_ContractClient(rpcClient);
+            test_ContractClient.Run();
 
-            Test_Nep5API test_Nep5API = new Test_Nep5API(rpcClient);
-            test_Nep5API.Run();
+            //Test_Nep5API test_Nep5API = new Test_Nep5API(rpcClient);
+            //test_Nep5API.Run();
 
             //Test_PolicyAPI test_PolicyAPI = new Test_PolicyAPI(rpcClient);
             //test_PolicyAPI.Run();

@@ -40,36 +40,38 @@ namespace TestRpcClient
             string currentDirectory = Directory.GetCurrentDirectory();
             DirectoryInfo rootDir = Directory.GetParent(Directory.GetParent(Directory.GetParent(currentDirectory).ToString()).ToString());
 
-            string nefFilePath = rootDir.ToString() + "\\Template.NEP5.CSharp.nef";
-            string manifestFilePath = rootDir.ToString() + "\\Template.NEP5.CSharp.manifest.json";
-           
+            string nefFilePath = rootDir.ToString() + "\\Test.nef";
+            string manifestFilePath = rootDir.ToString() + "\\Test.manifest.json";
+
             //read nefFile & manifestFile
             NefFile nefFile;
             using (var stream = new BinaryReader(File.OpenRead(nefFilePath), Encoding.UTF8, false))
             {
                 nefFile = stream.ReadSerializable<NefFile>();
             }
-            ContractManifest manifest = ContractManifest.Parse(File.ReadAllBytes(manifestFilePath));
+            var mani = File.ReadAllBytes(manifestFilePath);
+            ContractManifest manifest = ContractManifest.Parse(mani);
 
             Console.WriteLine("contract hash:" + nefFile.ScriptHash);
 
-            ////deploy contract
-            //var tx = contractClient.CreateDeployContractTx(nefFile.Script, manifest, keyPair1);
+            //deploy contract
+            var tx = contractClient.CreateDeployContractTx(nefFile.Script, manifest, keyPair1);
 
-            ////broadcast
-            //RpcClient.SendRawTransaction(tx);
-            //Console.WriteLine($"Transaction {tx.Hash} is broadcasted!");
+            //broadcast
+            RpcClient.SendRawTransaction(tx);
 
-            ////print a message after the transaction is on chain
-            //WalletAPI walletAPI = new WalletAPI(RpcClient);
-            //walletAPI.WaitTransaction(tx)
-            //   .ContinueWith(async (p) => Console.WriteLine($"Transaction vm state is {(await p).VMState}"));
+            Console.WriteLine($"Transaction {tx.Hash} is broadcasted!");
 
-            ////getContractState + here add wait a block
+            //print a message after the transaction is on chain
+            WalletAPI walletAPI = new WalletAPI(RpcClient);
+            walletAPI.WaitTransaction(tx)
+               .ContinueWith(async (p) => Console.WriteLine($"Transaction vm state is {(await p).VMState}"));
+
+            //getContractState + here add wait a block
             //ContractState contractState = RpcClient.GetContractState(nefFile.ScriptHash.ToString());
 
             ////InvokeDeploy
-            UInt160 witnessAddress = Contract.CreateSignatureContract(keyPair1.PublicKey).ScriptHash;
+            //UInt160 witnessAddress = Contract.CreateSignatureContract(keyPair1.PublicKey).ScriptHash;
             //byte[] script = nefFile.ScriptHash.MakeScript("deploy"/*, "[]"*/);
             //Cosigner[] cosigners = new[] { new Cosigner { Scopes = WitnessScope.CalledByEntry, Account = witnessAddress } };
             //Transaction invokeTx = new TransactionManager(RpcClient, witnessAddress)
@@ -84,30 +86,30 @@ namespace TestRpcClient
             //   .ContinueWith(async (p) => Console.WriteLine($"Transaction vm state is {(await p).VMState}"));
 
 
-            var addr1 = Contract.CreateSignatureRedeemScript(keyPair0.PublicKey).ToScriptHash();
-            //InvokeTransfer         
-            byte[] script = nefFile.ScriptHash.MakeScript("transfer", witnessAddress, addr1, 8888);
-            Cosigner[] cosigners = new[] { new Cosigner { Scopes = WitnessScope.CalledByEntry, Account = witnessAddress } };
-            Transaction invokeTx = new TransactionManager(RpcClient, witnessAddress)
-                .MakeTransaction(script, null, cosigners)
-                .AddSignature(keyPair1)
-                .Sign()
-                .Tx;
-            RpcClient.SendRawTransaction(invokeTx);
-            Console.WriteLine($"Transaction {invokeTx.Hash} is broadcasted!");
-            WalletAPI neoAPI = new WalletAPI(RpcClient);
-            neoAPI.WaitTransaction(invokeTx)
-               .ContinueWith(async (p) => Console.WriteLine($"Transaction vm state is {(await p).VMState}"));
+            //var addr1 = Contract.CreateSignatureRedeemScript(keyPair0.PublicKey).ToScriptHash();
+            ////InvokeTransfer         
+            //byte[] script = nefFile.ScriptHash.MakeScript("transfer", witnessAddress, addr1, 8888);
+            //Cosigner[] cosigners = new[] { new Cosigner { Scopes = WitnessScope.CalledByEntry, Account = witnessAddress } };
+            //Transaction invokeTx = new TransactionManager(RpcClient, witnessAddress)
+            //    .MakeTransaction(script, null, cosigners)
+            //    .AddSignature(keyPair1)
+            //    .Sign()
+            //    .Tx;
+            //RpcClient.SendRawTransaction(invokeTx);
+            //Console.WriteLine($"Transaction {invokeTx.Hash} is broadcasted!");
+            //WalletAPI neoAPI = new WalletAPI(RpcClient);
+            //neoAPI.WaitTransaction(invokeTx)
+            //   .ContinueWith(async (p) => Console.WriteLine($"Transaction vm state is {(await p).VMState}"));
 
-            //TestInvoke
+            ////TestInvoke
 
-            RpcInvokeResult invokeResult_name = contractClient.TestInvoke(nefFile.ScriptHash, "name", "[]");
-            string name = invokeResult_name.Stack[0].ToStackItem().GetString();
-            RpcInvokeResult invokeResult_totalSupply = contractClient.TestInvoke(nefFile.ScriptHash, "totalSupply", "[]");
-            BigInteger totalSupply = invokeResult_totalSupply.Stack[0].ToStackItem().GetBigInteger();
+            //RpcInvokeResult invokeResult_name = contractClient.TestInvoke(nefFile.ScriptHash, "name", "[]");
+            //string name = invokeResult_name.Stack[0].ToStackItem().GetString();
+            //RpcInvokeResult invokeResult_totalSupply = contractClient.TestInvoke(nefFile.ScriptHash, "totalSupply", "[]");
+            //BigInteger totalSupply = invokeResult_totalSupply.Stack[0].ToStackItem().GetBigInteger();
 
-            Console.WriteLine("name:" + name);
-            Console.WriteLine("total:" + totalSupply);
+            //Console.WriteLine("name:" + name);
+            //Console.WriteLine("total:" + totalSupply);
         }
 
         public void Test_Migrate()

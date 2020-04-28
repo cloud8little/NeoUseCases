@@ -77,8 +77,10 @@ namespace TestRpcClient
         {
             //When RpcStack[] is null
             RpcStack[] stack_totalSupply = new RpcStack[] { };
+
+            UInt160 scriptHashesForVerifying = UInt160.Parse("0x20e22e16cfbcfdd29f347268427b76863b7679fa");
             //InvokeFunction
-            RpcInvokeResult invokeResult_totalSupply = rpcClient.InvokeFunction(NativeContract.NEO.Hash.ToString(), "totalSupply", stack_totalSupply);
+            RpcInvokeResult invokeResult_totalSupply = rpcClient.InvokeFunction(NativeContract.NEO.Hash.ToString(), "totalSupply", stack_totalSupply, scriptHashesForVerifying);
             //InvokeScript
             RpcInvokeResult invokeScriptResult_totalSupply = rpcClient.InvokeScript(invokeResult_totalSupply.Script.HexToBytes());
 
