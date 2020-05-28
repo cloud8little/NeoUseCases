@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Net.Mail;
+using System.Text;
 
 namespace OtherTest
 {
@@ -9,10 +11,50 @@ namespace OtherTest
         {
             Console.WriteLine("Hello World!");
 
-            Example example = new Example();
-            example.Test();
+            //Example example = new Example();
+            //example.Test();
 
             //StackTest();
+
+            //using (MailMessage mail = new MailMessage
+            //{
+            //    From = new MailAddress("zhanghaoqiang@onchain.com", "aaa"),
+            //    Subject = "Test",
+            //    BodyEncoding = Encoding.UTF8,
+            //    Body = "Test   aaaaa",
+            //    IsBodyHtml = true
+            //})
+            //{
+            //    mail.To.Add("gripzhang@outlook.com");
+            //    using SmtpClient smtp = new SmtpClient("smtp.partner.outlook.cn", 587)
+            //    {
+            //        EnableSsl = true,
+            //        UseDefaultCredentials = true,
+            //        DeliveryMethod = SmtpDeliveryMethod.Network,
+            //        Credentials = new System.Net.NetworkCredential("zhanghaoqiang@onchain.com", "")
+            //    };
+            //    smtp.Send(mail);
+            //}
+
+            using (MailMessage mail = new MailMessage
+            {
+                From = new MailAddress("contact@peg.financial", "Peg"),
+                Subject = "Test",
+                BodyEncoding = Encoding.UTF8,
+                Body = "Test   aaaaa",
+                IsBodyHtml = true
+            })
+            {
+                mail.To.Add("gripzhang@outlook.com");
+                using SmtpClient smtp = new SmtpClient("smtp.office365.com", 587)
+                {
+                    EnableSsl = true,
+                    UseDefaultCredentials = false,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    Credentials = new System.Net.NetworkCredential("contact@peg.financial", "Neo#Community@2020PEG")
+                };
+                smtp.Send(mail);
+            }
 
             Console.ReadKey();
         }

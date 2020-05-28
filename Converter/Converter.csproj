@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\PR-Test\preview2\neo-3.0.0-preview2\src\neo\neo.csproj" />
+    <PackageReference Include="Neo" Version="3.0.0-preview2-00" />
   </ItemGroup>
 
 </Project>
