@@ -2,7 +2,6 @@
 using Neo.Cryptography;
 using Neo.IO;
 using Neo.Ledger;
-using Neo.Network.P2P;
 using Neo.Network.P2P.Payloads;
 using Neo.SmartContract;
 using Neo.VM;
@@ -30,7 +29,7 @@ namespace Neo2_Test
             List<Utxo> gasList = GetGasBalanceByAddress(api, address);
 
             //从文件中读取合约
-            byte[] contractData = System.IO.File.ReadAllBytes("PEG-Proxy.avm"); //这里填你的合约所在地址
+            byte[] contractData = System.IO.File.ReadAllBytes("PEG.avm"); //这里填你的合约 avm 所在地址
 
             UInt160 contract_hash = new UInt160(Crypto.Default.Hash160(contractData));//合约 hash
 
@@ -45,11 +44,12 @@ namespace Neo2_Test
             TransactionAttribute[] attributes = new TransactionAttribute[]
             {
                 new TransactionAttribute() { Usage = TransactionAttributeUsage.Script, Data = contract.Address.ToScriptHash().ToArray() },
-                new TransactionAttribute() { Usage = TransactionAttributeUsage.Remark1, Data = nonce } // if a transaction has no inputs and outputs, need to add nonce for duplication
+                new TransactionAttribute() { Usage = TransactionAttributeUsage.Remark1, Data = nonce }
             };
 
             tx.Attributes = attributes;
 
+            //添加签名
             var signature = tx.Sign(keyPair);
             var sb = new ScriptBuilder();
             sb = sb.EmitPush(signature);
@@ -65,9 +65,6 @@ namespace Neo2_Test
             byte[] data = tx.ToArray();
             string rawdata = data.ToHexString();
 
-            Console.WriteLine("script:" + tx.Script.ToHexString());
-            Console.WriteLine("raw:" + rawdata);
-
             string result = Helper.InvokeRpc(api, "sendrawtransaction", rawdata);
 
             Console.WriteLine(result.ToString());
@@ -75,37 +72,13 @@ namespace Neo2_Test
 
         private static InvocationTransaction MakeTransaction(string address, List<Utxo> gasList, byte[] contractData)
         {
-            byte[] parameter__list = "0710".HexToBytes();  //合约入参类型  例：0610 代表（string，[]）参考：http://docs.neo.org/zh-cn/sc/Parameter.html
-            
-            //byte[] return_type = "05".HexToBytes();  //合约返回值类型 05 代表 ByteArray
-            //int need_storage = 1; //是否需要使用存储 0 false 1 true
-            //int need_nep4 = 0; //是否需要动态调用 0 false 2 true
-            //int need_canCharge = 4; //是否支持收款 4 true
-            //byte[] script;
-            //using (ScriptBuilder sb = new ScriptBuilder())
-            //{
-            //    //倒序插入参数
-            //    sb.EmitPush("test"); //description
-            //    sb.EmitPush("xxx@neo.com"); //email
-            //    sb.EmitPush("test"); //auther
-            //    sb.EmitPush("1.0");  //version
-            //    sb.EmitPush("ABC Coin"); //name
-            //    sb.EmitPush(need_storage | need_nep4 | need_canCharge);
-            //    sb.EmitPush(return_type);
-            //    sb.EmitPush(parameter__list);
-            //    sb.EmitPush(contractData);
-            //    sb.EmitSysCall("Neo.Contract.Create");
-
-            //    script = sb.ToArray();
-            //}
-            ////string deployData = script.ToHexString();
-            ///
-
-
+            byte[] parameter__list = "0710".HexToBytes();  //合约入参类型  例：0610 代表（string，[]）参考：http://docs.neo.org/zh-cn/sc/Parameter.html            
+           
             ContractParameterType return_type = "05".HexToBytes().Select(p => (ContractParameterType?)p).FirstOrDefault() ?? ContractParameterType.Void;  //合约返回值类型 05 代表 ByteArray
             ContractPropertyState properties = ContractPropertyState.NoProperty;
             properties |= ContractPropertyState.HasStorage; //是否需要使用存储 
-            properties |= ContractPropertyState.Payable; //是否支持收款            
+            properties |= ContractPropertyState.Payable; //是否支持收款  
+            //properties |= ContractPropertyState.HasDynamicInvoke;//支持动态调用
 
             byte[] script;
             using (ScriptBuilder sb = new ScriptBuilder())
@@ -113,7 +86,6 @@ namespace Neo2_Test
                 sb.EmitSysCall("Neo.Contract.Create", contractData, parameter__list, return_type, properties, "name", "version", "author", "email", "description");
                 script = sb.ToArray();
             }
-
 
             //拼交易
             InvocationTransaction tx = MakeTran(gasList, null, address, script);
@@ -125,24 +97,26 @@ namespace Neo2_Test
         {
             var tx = new InvocationTransaction();
             tx.Attributes = new TransactionAttribute[] { };
-            tx.Version = 0;
-            tx.Outputs = new TransactionOutput[] { };
-            tx.Witnesses = new Witness[] { };
+            tx.Version = 1; //目前 neo2 的 Version 是 1
             tx.Inputs = new CoinReference[] { };
+            tx.Outputs = new TransactionOutput[] { };
+            tx.Witnesses = new Witness[] { };          
             tx.Script = script;
 
+            //计算系统费
             string result = Helper.InvokeRpc(api, "invokescript", script.ToHexString());
             var consume = JObject.Parse(result)["result"]["gas_consumed"].ToString();
             decimal sys_fee = decimal.Parse(consume) - 10;
 
+            //计算网络费
             decimal fee = 0;
             if (tx.Size > 1024)
             {
-                fee += 0.01m;
+                fee += 0.001m;
                 fee += tx.Size * 0.00001m;
-                //tx.NetworkFee = Fixed8.FromDecimal(fee);
             }
 
+            //总费用
             decimal gas_consumed = sys_fee + fee;
 
             gasList.Sort((a, b) =>
@@ -159,6 +133,7 @@ namespace Neo2_Test
 
             decimal count = decimal.Zero;
 
+            //构造UTXO 的 vin 和 vout
             List<CoinReference> coinList = new List<CoinReference>();
             for (int i = 0; i < gasList.Count; i++)
             {
@@ -185,6 +160,7 @@ namespace Neo2_Test
                     list_outputs.Add(output);
                 }
 
+                //找零
                 var change = count - gas_consumed;
                 if (change > decimal.Zero)
                 {
@@ -205,6 +181,7 @@ namespace Neo2_Test
             return tx;
         }
 
+        //get GAS UTXO
         private static List<Utxo> GetGasBalanceByAddress(string api, string address)
         {
             JObject response = JObject.Parse(Helper.HttpGet(api + "method=getunspents&params=['" + address + "']"));
