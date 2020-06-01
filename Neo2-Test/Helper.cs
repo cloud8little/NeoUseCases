@@ -15,6 +15,22 @@ namespace Neo2_Test
             return wc.DownloadString(url);
         }
 
+        public static string InvokeRpc(string api, string method, string data)
+        {
+            string input = @"{
+	            'jsonrpc': '2.0',
+                'method': '&',
+	            'params': ['#'],
+	            'id': '1'
+                }";
+
+            input = input.Replace("&", method);
+            input = input.Replace("#", data);
+
+            string result = HttpPost(api, input);
+            return result;
+        }
+
         public static string HttpPost(string url, string data)
         {
             HttpWebRequest req = null;

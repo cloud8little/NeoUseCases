@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\neo_code\neo2\neo-2.10.3\neo\neo.csproj" />
+    <ProjectReference Include="..\..\..\neo_code\neo2\neo-vm-2.4.3\src\neo-vm\neo-vm.csproj" />
   </ItemGroup>
 
 </Project>

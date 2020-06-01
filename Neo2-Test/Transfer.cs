@@ -1,7 +1,5 @@
 ﻿using Neo;
 using Neo.Cryptography;
-using Neo.IO;
-using Neo.Ledger;
 using Neo.Network.P2P;
 using Neo.Network.P2P.Payloads;
 using Neo.SmartContract;
@@ -10,16 +8,16 @@ using Neo.Wallets;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 
 namespace Neo2_Test
 {
-    public static class DeployContract
+    public static class Transfer
     {
         public static string gas_hash = "602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7";
         public static string api = "http://127.0.0.1:20332/?jsonrpc=2.0&id=1&";
 
-        public static void Deploy()
+        public static void SendTrans()
         {
             byte[] prikey = Wallet.GetPrivateKeyFromWIF("L2byQYg4BCmV2Eu6eXs3fvwtgXZkjdAWRX4v7QryMPmN67dvapct");
             KeyPair keyPair = new KeyPair(prikey);
@@ -27,17 +25,15 @@ namespace Neo2_Test
             var contract = Contract.CreateSignatureContract(keyPair.PublicKey);
             string address = contract.Address;
 
+            string toAddress = "ANX5ewXRuKmxpKxqgjVqA6JYdm7kW88LBx";
+
             List<Utxo> gasList = GetGasBalanceByAddress(api, address);
 
-            //从文件中读取合约
-            byte[] contractData = System.IO.File.ReadAllBytes("PEG-Proxy.avm"); //这里填你的合约所在地址
-
-            UInt160 contract_hash = new UInt160(Crypto.Default.Hash160(contractData));//合约 hash
-
-            Console.WriteLine("合约脚本hash：" + contract_hash.ToString());
-
             //构建交易
-            InvocationTransaction tx = MakeTransaction(address, gasList, contractData);
+            InvocationTransaction tx = MakeTran(gasList, toAddress, 2.2m, address);
+
+            tx.Script = new byte[] { };
+            tx.Gas = Fixed8.FromDecimal(0.1m);
 
             Random random = new Random();
             var nonce = new byte[32];
@@ -56,94 +52,27 @@ namespace Neo2_Test
             var invocationScript = sb.ToArray();
 
             var verificationScript = Contract.CreateSignatureRedeemScript(keyPair.PublicKey);
-            Witness witness = new Witness() { InvocationScript = invocationScript, VerificationScript = verificationScript };
+            Witness witness = new Witness() { InvocationScript = invocationScript};
 
             tx.Witnesses = new[] { witness };
 
             Console.WriteLine("txid: " + tx.Hash.ToString());
 
-            byte[] data = tx.ToArray();
+            byte[] data = tx.GetHashData();
             string rawdata = data.ToHexString();
-
-            Console.WriteLine("script:" + tx.Script.ToHexString());
-            Console.WriteLine("raw:" + rawdata);
 
             string result = Helper.InvokeRpc(api, "sendrawtransaction", rawdata);
 
             Console.WriteLine(result.ToString());
         }
 
-        private static InvocationTransaction MakeTransaction(string address, List<Utxo> gasList, byte[] contractData)
-        {
-            byte[] parameter__list = "0710".HexToBytes();  //合约入参类型  例：0610 代表（string，[]）参考：http://docs.neo.org/zh-cn/sc/Parameter.html
-            
-            //byte[] return_type = "05".HexToBytes();  //合约返回值类型 05 代表 ByteArray
-            //int need_storage = 1; //是否需要使用存储 0 false 1 true
-            //int need_nep4 = 0; //是否需要动态调用 0 false 2 true
-            //int need_canCharge = 4; //是否支持收款 4 true
-            //byte[] script;
-            //using (ScriptBuilder sb = new ScriptBuilder())
-            //{
-            //    //倒序插入参数
-            //    sb.EmitPush("test"); //description
-            //    sb.EmitPush("xxx@neo.com"); //email
-            //    sb.EmitPush("test"); //auther
-            //    sb.EmitPush("1.0");  //version
-            //    sb.EmitPush("ABC Coin"); //name
-            //    sb.EmitPush(need_storage | need_nep4 | need_canCharge);
-            //    sb.EmitPush(return_type);
-            //    sb.EmitPush(parameter__list);
-            //    sb.EmitPush(contractData);
-            //    sb.EmitSysCall("Neo.Contract.Create");
-
-            //    script = sb.ToArray();
-            //}
-            ////string deployData = script.ToHexString();
-            ///
-
-
-            ContractParameterType return_type = "05".HexToBytes().Select(p => (ContractParameterType?)p).FirstOrDefault() ?? ContractParameterType.Void;  //合约返回值类型 05 代表 ByteArray
-            ContractPropertyState properties = ContractPropertyState.NoProperty;
-            properties |= ContractPropertyState.HasStorage; //是否需要使用存储 
-            properties |= ContractPropertyState.Payable; //是否支持收款            
-
-            byte[] script;
-            using (ScriptBuilder sb = new ScriptBuilder())
-            {
-                sb.EmitSysCall("Neo.Contract.Create", contractData, parameter__list, return_type, properties, "name", "version", "author", "email", "description");
-                script = sb.ToArray();
-            }
-
-
-            //拼交易
-            InvocationTransaction tx = MakeTran(gasList, null, address, script);
-
-            return tx;
-        }
-
-        public static InvocationTransaction MakeTran(List<Utxo> gasList, string targetAddr, string changeAddr, byte[] script)
+        public static InvocationTransaction MakeTran(List<Utxo> gasList, string targetAddr, decimal sendCount, string changeAddr)
         {
             var tx = new InvocationTransaction();
-            tx.Attributes = new TransactionAttribute[] { };
+            tx.Attributes = new TransactionAttribute[0];
             tx.Version = 0;
             tx.Outputs = new TransactionOutput[] { };
             tx.Witnesses = new Witness[] { };
-            tx.Inputs = new CoinReference[] { };
-            tx.Script = script;
-
-            string result = Helper.InvokeRpc(api, "invokescript", script.ToHexString());
-            var consume = JObject.Parse(result)["result"]["gas_consumed"].ToString();
-            decimal sys_fee = decimal.Parse(consume) - 10;
-
-            decimal fee = 0;
-            if (tx.Size > 1024)
-            {
-                fee += 0.01m;
-                fee += tx.Size * 0.00001m;
-                //tx.NetworkFee = Fixed8.FromDecimal(fee);
-            }
-
-            decimal gas_consumed = sys_fee + fee;
 
             gasList.Sort((a, b) =>
             {
@@ -155,8 +84,6 @@ namespace Neo2_Test
                     return 0;
             });
 
-            tx.Gas = Fixed8.FromDecimal(sys_fee);
-
             decimal count = decimal.Zero;
 
             List<CoinReference> coinList = new List<CoinReference>();
@@ -167,25 +94,25 @@ namespace Neo2_Test
                 coin.PrevIndex = (ushort)gasList[i].n;
                 coinList.Add(coin);
                 count += gasList[i].value;
-                if (count >= gas_consumed)
+                if (count >= sendCount)
                     break;
             }
 
             tx.Inputs = coinList.ToArray();
 
-            if (count >= gas_consumed)
+            if (count >= sendCount)
             {
                 List<TransactionOutput> list_outputs = new List<TransactionOutput>();
-                if (gas_consumed > decimal.Zero && targetAddr != null)
+                if (sendCount > decimal.Zero && targetAddr != null)
                 {
                     TransactionOutput output = new TransactionOutput();
                     output.AssetId = UInt256.Parse(gas_hash);
-                    output.Value = Fixed8.FromDecimal(gas_consumed);
+                    output.Value = Fixed8.FromDecimal(sendCount);
                     output.ScriptHash = targetAddr.ToScriptHash();
                     list_outputs.Add(output);
                 }
 
-                var change = count - gas_consumed;
+                var change = count - sendCount;
                 if (change > decimal.Zero)
                 {
                     TransactionOutput outputchange = new TransactionOutput();
@@ -228,6 +155,5 @@ namespace Neo2_Test
             }
             return Utxos;
         }
-
     }
 }

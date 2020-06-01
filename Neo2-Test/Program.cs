@@ -8,6 +8,8 @@ namespace Neo2_Test
         {
             Console.WriteLine("Hello World!");
 
+            //Transfer.SendTrans();
+
             DeployContract.Deploy();
 
             Console.ReadKey();
