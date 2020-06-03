@@ -7,12 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Neo.VM" Version="2.4.3.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\neo_code\neo2\neo-2.10.3\neo\neo.csproj" />
-    <ProjectReference Include="..\..\..\neo_code\neo2\neo-vm-2.4.3\src\neo-vm\neo-vm.csproj" />
+    <PackageReference Include="Neo" Version="2.10.3" />
   </ItemGroup>
 
 </Project>

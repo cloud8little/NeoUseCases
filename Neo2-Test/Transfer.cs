@@ -1,5 +1,6 @@
 ﻿using Neo;
 using Neo.Cryptography;
+using Neo.IO;
 using Neo.Network.P2P;
 using Neo.Network.P2P.Payloads;
 using Neo.SmartContract;
@@ -8,7 +9,6 @@ using Neo.Wallets;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Neo2_Test
 {
@@ -22,57 +22,48 @@ namespace Neo2_Test
             byte[] prikey = Wallet.GetPrivateKeyFromWIF("L2byQYg4BCmV2Eu6eXs3fvwtgXZkjdAWRX4v7QryMPmN67dvapct");
             KeyPair keyPair = new KeyPair(prikey);
 
-            var contract = Contract.CreateSignatureContract(keyPair.PublicKey);
-            string address = contract.Address;
+            var contract = Contract.CreateSignatureContract(keyPair.PublicKey);           
 
             string toAddress = "ANX5ewXRuKmxpKxqgjVqA6JYdm7kW88LBx";
 
-            List<Utxo> gasList = GetGasBalanceByAddress(api, address);
-
             //构建交易
-            InvocationTransaction tx = MakeTran(gasList, toAddress, 2.2m, address);
+            ContractTransaction tx = MakeTran(toAddress, contract.Address, 2.22m);
 
-            tx.Script = new byte[] { };
-            tx.Gas = Fixed8.FromDecimal(0.1m);
-
-            Random random = new Random();
-            var nonce = new byte[32];
-            random.NextBytes(nonce);
-            TransactionAttribute[] attributes = new TransactionAttribute[]
-            {
-                new TransactionAttribute() { Usage = TransactionAttributeUsage.Script, Data = contract.Address.ToScriptHash().ToArray() },
-                new TransactionAttribute() { Usage = TransactionAttributeUsage.Remark1, Data = nonce } // if a transaction has no inputs and outputs, need to add nonce for duplication
-            };
-
-            tx.Attributes = attributes;
-
-            var signature = tx.Sign(keyPair);
-            var sb = new ScriptBuilder();
-            sb = sb.EmitPush(signature);
-            var invocationScript = sb.ToArray();
-
-            var verificationScript = Contract.CreateSignatureRedeemScript(keyPair.PublicKey);
-            Witness witness = new Witness() { InvocationScript = invocationScript};
-
-            tx.Witnesses = new[] { witness };
+            tx = GetWitness(keyPair, tx, contract.ScriptHash);
 
             Console.WriteLine("txid: " + tx.Hash.ToString());
 
-            byte[] data = tx.GetHashData();
+            byte[] data = tx.ToArray();
             string rawdata = data.ToHexString();
 
-            string result = Helper.InvokeRpc(api, "sendrawtransaction", rawdata);
+            string result = Helper.InvokeRpc("sendrawtransaction", rawdata);
 
             Console.WriteLine(result.ToString());
         }
 
-        public static InvocationTransaction MakeTran(List<Utxo> gasList, string targetAddr, decimal sendCount, string changeAddr)
+        public static ContractTransaction MakeTran(string targetAddr, string myAddr, decimal amount)
         {
-            var tx = new InvocationTransaction();
-            tx.Attributes = new TransactionAttribute[0];
-            tx.Version = 0;
+            List<Utxo> gasList = Helper.GetGasBalanceByAddress(myAddr);
+
+            var tx = new ContractTransaction();
+            tx.Attributes = new TransactionAttribute[] { };
+            tx.Version = 0; //
+            tx.Inputs = new CoinReference[] { };
             tx.Outputs = new TransactionOutput[] { };
             tx.Witnesses = new Witness[] { };
+           
+            decimal sys_fee = 0;
+
+            //计算网络费
+            decimal fee = 0;
+            if (tx.Size > 1024)
+            {
+                fee += 0.001m;
+                fee += tx.Size * 0.00001m;
+            }
+
+            //总费用
+            decimal gas_consumed = sys_fee + fee + amount;
 
             gasList.Sort((a, b) =>
             {
@@ -86,6 +77,7 @@ namespace Neo2_Test
 
             decimal count = decimal.Zero;
 
+            //构造 UTXO 的 vin 和 vout
             List<CoinReference> coinList = new List<CoinReference>();
             for (int i = 0; i < gasList.Count; i++)
             {
@@ -94,30 +86,31 @@ namespace Neo2_Test
                 coin.PrevIndex = (ushort)gasList[i].n;
                 coinList.Add(coin);
                 count += gasList[i].value;
-                if (count >= sendCount)
+                if (count >= gas_consumed)
                     break;
             }
 
             tx.Inputs = coinList.ToArray();
 
-            if (count >= sendCount)
+            if (count >= gas_consumed)
             {
                 List<TransactionOutput> list_outputs = new List<TransactionOutput>();
-                if (sendCount > decimal.Zero && targetAddr != null)
+                if (gas_consumed > decimal.Zero && targetAddr != null)
                 {
                     TransactionOutput output = new TransactionOutput();
                     output.AssetId = UInt256.Parse(gas_hash);
-                    output.Value = Fixed8.FromDecimal(sendCount);
+                    output.Value = Fixed8.FromDecimal(gas_consumed);
                     output.ScriptHash = targetAddr.ToScriptHash();
                     list_outputs.Add(output);
                 }
 
-                var change = count - sendCount;
+                //找零
+                var change = count - gas_consumed;
                 if (change > decimal.Zero)
                 {
                     TransactionOutput outputchange = new TransactionOutput();
                     outputchange.AssetId = UInt256.Parse(gas_hash);
-                    outputchange.ScriptHash = changeAddr.ToScriptHash();
+                    outputchange.ScriptHash = myAddr.ToScriptHash();
                     outputchange.Value = Fixed8.FromDecimal(change);
                     list_outputs.Add(outputchange);
                 }
@@ -132,28 +125,32 @@ namespace Neo2_Test
             return tx;
         }
 
-        private static List<Utxo> GetGasBalanceByAddress(string api, string address)
+        public static ContractTransaction GetWitness(KeyPair keyPair, ContractTransaction tx, UInt160 scriptHash)
         {
-            JObject response = JObject.Parse(Helper.HttpGet(api + "method=getunspents&params=['" + address + "']"));
-            JArray resJA = (JArray)response["result"]["balance"];
-
-            List<Utxo> Utxos = new List<Utxo>();
-
-            foreach (JObject jAsset in resJA)
+            Random random = new Random();
+            var nonce = new byte[32];
+            random.NextBytes(nonce);
+            TransactionAttribute[] attributes = new TransactionAttribute[]
             {
-                var asset_hash = jAsset["asset_hash"].ToString();
-                if (asset_hash != gas_hash)
-                    continue;
-                var jUnspent = jAsset["unspent"] as JArray;
+                new TransactionAttribute() { Usage = TransactionAttributeUsage.Script, Data = scriptHash.ToArray() },
+                new TransactionAttribute() { Usage = TransactionAttributeUsage.Remark1, Data = nonce }
+            };
 
-                foreach (JObject j in jUnspent)
-                {
-                    Utxo utxo = new Utxo(UInt256.Parse(j["txid"].ToString()), decimal.Parse(j["value"].ToString()), int.Parse(j["n"].ToString()));
+            tx.Attributes = attributes;
 
-                    Utxos.Add(utxo);
-                }
-            }
-            return Utxos;
+            //添加签名
+            var signature = tx.Sign(keyPair);
+            var sb = new ScriptBuilder();
+            sb = sb.EmitPush(signature);
+            var invocationScript = sb.ToArray();
+
+            var verificationScript = Contract.CreateSignatureRedeemScript(keyPair.PublicKey);
+            Witness witness = new Witness() { InvocationScript = invocationScript, VerificationScript = verificationScript };
+
+            tx.Witnesses = new[] { witness };
+
+            return tx;
         }
+
     }
 }
