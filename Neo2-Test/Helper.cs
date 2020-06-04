@@ -1,4 +1,5 @@
 ﻿using Neo;
+using Neo.Cryptography.ECC;
 using Neo.Network.P2P.Payloads;
 using Neo.SmartContract;
 using Neo.VM;
@@ -15,10 +16,11 @@ namespace Neo2_Test
     public static class Helper
     {
         public static string gas_hash = "602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7";
-        public static string neo_hash = "602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7";
+        public static string neo_hash = "c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b";
         public static string api = "http://127.0.0.1:20332/?jsonrpc=2.0&id=1&";
 
-        public static InvocationTransaction GetWitness(KeyPair keyPair, InvocationTransaction tx, UInt160 scriptHash)
+
+        public static TransactionAttribute[] GetAttribute(UInt160 scriptHash)
         {
             Random random = new Random();
             var nonce = new byte[32];
@@ -29,29 +31,28 @@ namespace Neo2_Test
                 new TransactionAttribute() { Usage = TransactionAttributeUsage.Remark1, Data = nonce }
             };
 
-            tx.Attributes = attributes;
+            return attributes;
+        }
 
-            //添加签名
-            var signature = tx.Sign(keyPair);
+        public static Witness[] GetWitness(byte[] signature, ECPoint publicKey)
+        {
             var sb = new ScriptBuilder();
             sb = sb.EmitPush(signature);
             var invocationScript = sb.ToArray();
 
-            var verificationScript = Contract.CreateSignatureRedeemScript(keyPair.PublicKey);
+            var verificationScript = Contract.CreateSignatureRedeemScript(publicKey);
             Witness witness = new Witness() { InvocationScript = invocationScript, VerificationScript = verificationScript };
 
-            tx.Witnesses = new[] { witness };
-
-            return tx;
+            return new[] { witness };
         }
-
+       
         public static InvocationTransaction MakeTran(string targetAddr, string myAddr, decimal amount, byte[] script)
         {
             List<Utxo> gasList = GetGasBalanceByAddress(myAddr);
 
             var tx = new InvocationTransaction();
             tx.Attributes = new TransactionAttribute[] { };
-            tx.Version = 1; //目前 neo2 的 Version 是 1
+            tx.Version = 1; //若花费 sys_fee, version 就是 1
             tx.Inputs = new CoinReference[] { };
             tx.Outputs = new TransactionOutput[] { };
             tx.Witnesses = new Witness[] { };
@@ -62,7 +63,11 @@ namespace Neo2_Test
             var consume = JObject.Parse(result)["result"]["gas_consumed"].ToString();
             decimal sys_fee = decimal.Parse(consume) - 10;
 
-            if (sys_fee < 0) sys_fee = 0;
+            if (sys_fee <= 0)
+            {
+                tx.Version = 0;
+                sys_fee = 0;
+            }
 
             //计算网络费
             decimal fee = 0;
@@ -137,6 +142,30 @@ namespace Neo2_Test
             return tx;
         }
 
+        internal static List<Utxo> GetNeoBalanceByAddress(string address)
+        {
+            JObject response = JObject.Parse(Helper.HttpGet(api + "method=getunspents&params=['" + address + "']"));
+            JArray resJA = (JArray)response["result"]["balance"];
+
+            List<Utxo> Utxos = new List<Utxo>();
+
+            foreach (JObject jAsset in resJA)
+            {
+                var asset_hash = jAsset["asset_hash"].ToString();
+                if (asset_hash != neo_hash)
+                    continue;
+                var jUnspent = jAsset["unspent"] as JArray;
+
+                foreach (JObject j in jUnspent)
+                {
+                    Utxo utxo = new Utxo(UInt256.Parse(j["txid"].ToString()), decimal.Parse(j["value"].ToString()), int.Parse(j["n"].ToString()));
+
+                    Utxos.Add(utxo);
+                }
+            }
+            return Utxos;
+        }
+
         //get GAS UTXO
         public static List<Utxo> GetGasBalanceByAddress(string address)
         {
@@ -186,10 +215,7 @@ namespace Neo2_Test
 
         public static string HttpPost(string url, string data)
         {
-            HttpWebRequest req = null;
-            HttpWebResponse rsp = null;
-            Stream reqStream = null;
-            req = WebRequest.CreateHttp(new Uri(url));
+            HttpWebRequest req = WebRequest.CreateHttp(new Uri(url));
             req.ContentType = "application/json;charset=utf-8";
 
             req.Method = "POST";
@@ -197,11 +223,11 @@ namespace Neo2_Test
             req.ContinueTimeout = 10000;
 
             byte[] postData = Encoding.UTF8.GetBytes(data);
-            reqStream = req.GetRequestStream();
+            Stream reqStream = req.GetRequestStream();
             reqStream.Write(postData, 0, postData.Length);
             //reqStream.Dispose();
 
-            rsp = (HttpWebResponse)req.GetResponse();
+            HttpWebResponse rsp = (HttpWebResponse)req.GetResponse();
             string result = GetResponseAsString(rsp);
 
             return result;

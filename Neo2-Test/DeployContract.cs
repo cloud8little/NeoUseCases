@@ -23,7 +23,7 @@ namespace Neo2_Test
             var contract = Contract.CreateSignatureContract(keyPair.PublicKey);
 
             //从文件中读取合约
-            byte[] contractData = System.IO.File.ReadAllBytes("PEG.avm"); //这里填你的合约 avm 所在地址
+            byte[] contractData = System.IO.File.ReadAllBytes("nep5.avm"); //这里填你的合约 avm 所在地址
 
             UInt160 contract_hash = new UInt160(Crypto.Default.Hash160(contractData));//合约 hash
 
@@ -31,8 +31,12 @@ namespace Neo2_Test
 
             //构建交易
             InvocationTransaction tx = MakeTransaction(contract.Address, contractData);
-            
-            tx = Helper.GetWitness(keyPair, tx, contract.ScriptHash);
+
+            tx.Attributes = Helper.GetAttribute(contract.ScriptHash);
+
+            var signature = tx.Sign(keyPair);
+
+            tx.Witnesses = Helper.GetWitness(signature, keyPair.PublicKey);
 
             Console.WriteLine("txid: " + tx.Hash.ToString());
 

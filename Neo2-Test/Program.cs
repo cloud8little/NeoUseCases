@@ -8,11 +8,15 @@ namespace Neo2_Test
         {
             Console.WriteLine("Hello World!");
 
-            Transfer.SendTrans();
+            //Transfer.SendGasTrans();
+
+            Transfer.SendNeoTrans();
 
             //DeployContract.Deploy();
 
-            //InvokeContract.Nep5Transfer();
+            //InvokeContract.Transfer();
+
+            //InvokeContract.InvokeScript();
 
             Console.ReadKey();
         }
