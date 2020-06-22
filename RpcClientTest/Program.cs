@@ -35,10 +35,10 @@ namespace TestRpcClient
             //Test_PolicyAPI test_PolicyAPI = new Test_PolicyAPI(rpcClient);
             //test_PolicyAPI.Run();
 
-            //Test_RpcClient test_RpcClient = new Test_RpcClient();
+            Test_RpcClient test_RpcClient = new Test_RpcClient();
             //test_RpcClient.Test_Blockchain(rpcClient);
             //test_RpcClient.Test_Node(rpcClient);
-            //test_RpcClient.Test_SmartContract(rpcClient);
+            test_RpcClient.Test_SmartContract(rpcClient);
             //test_RpcClient.Test_Utilities(rpcClient);
             //test_RpcClient.Test_Wallet_and_Plugins(rpcClient);
 

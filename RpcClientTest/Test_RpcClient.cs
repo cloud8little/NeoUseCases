@@ -3,6 +3,7 @@ using Neo.IO.Json;
 using Neo.Ledger;
 using Neo.Network.RPC;
 using Neo.Network.RPC.Models;
+using Neo.SmartContract;
 using Neo.SmartContract.Native;
 using Neo.Wallets;
 using System;
@@ -92,7 +93,18 @@ namespace TestRpcClient
             //InvokeFunction
             RpcInvokeResult invokeResult_balanceOf = rpcClient.InvokeFunction(NativeContract.GAS.Hash.ToString(), "balanceOf", stack_balanceOf);
             //InvokeScript
-            RpcInvokeResult invokeScriptResult_balanceOf = rpcClient.InvokeScript(invokeResult_balanceOf.Script.HexToBytes());
+            //RpcInvokeResult invokeScriptResult_balanceOf = rpcClient.InvokeScript(invokeResult_balanceOf.Script.HexToBytes());
+
+            string script = invokeResult_balanceOf.Script;
+            string engineState = invokeResult_balanceOf.State.ToString();
+            long gasConsumed = long.Parse(invokeResult_balanceOf.GasConsumed);
+            ContractParameter[] resultStacks = invokeResult_balanceOf.Stack;
+            foreach (var item in resultStacks)
+            {
+                ContractParameterType contractParameterType = item.Type;
+                object value = item.Value;
+            }
+            string transaction = invokeResult_balanceOf.Tx;
         }
 
         public void Test_Utilities(RpcClient rpcClient)
