@@ -1,6 +1,7 @@
 using Neo;
 using Neo.IO.Json;
 using Neo.Ledger;
+using Neo.Network.P2P.Payloads;
 using Neo.Network.RPC;
 using Neo.Network.RPC.Models;
 using Neo.SmartContract;
@@ -46,11 +47,11 @@ namespace TestRpcClient
             //GetRawMempoolBoth + see Test_Wallet_and_Plugins()
 
             //GetRawTransactionHex
-            string rawTransactionHex = rpcClient.GetRawTransactionHex("0xb8b7ee5108f50fd75faa6d36acb65f666b9841e619d05b4402cf156ca0864821");
+            string rawTransactionHex = rpcClient.GetRawTransactionHex("0xd7cfe4a36a7e5d08b4855350fa1efae3c3009ab80f28a97025818309b3f8ccb7");
             //GetRawTransaction
-            RpcTransaction rawTransaction = rpcClient.GetRawTransaction("0xb8b7ee5108f50fd75faa6d36acb65f666b9841e619d05b4402cf156ca0864821");
+            RpcTransaction rawTransaction = rpcClient.GetRawTransaction("0xd7cfe4a36a7e5d08b4855350fa1efae3c3009ab80f28a97025818309b3f8ccb7");
             //GetTransactionHeight
-            uint transactionHeight = rpcClient.GetTransactionHeight("0xb8b7ee5108f50fd75faa6d36acb65f666b9841e619d05b4402cf156ca0864821");
+            uint transactionHeight = rpcClient.GetTransactionHeight("0xd7cfe4a36a7e5d08b4855350fa1efae3c3009ab80f28a97025818309b3f8ccb7");
 
             //GetStorage+Needfix
             //var storage = rpcClient.GetStorage(NativeContract.NEO.Hash.ToString(), "746f74616c537570706c79");
@@ -80,8 +81,9 @@ namespace TestRpcClient
             RpcStack[] stack_totalSupply = new RpcStack[] { };
 
             UInt160 scriptHashesForVerifying = UInt160.Parse("0x20e22e16cfbcfdd29f347268427b76863b7679fa");
+            Signer signer = new Signer { Account = scriptHashesForVerifying, Scopes = WitnessScope.CalledByEntry };
             //InvokeFunction
-            RpcInvokeResult invokeResult_totalSupply = rpcClient.InvokeFunction(NativeContract.NEO.Hash.ToString(), "totalSupply", stack_totalSupply, scriptHashesForVerifying);
+            RpcInvokeResult invokeResult_totalSupply = rpcClient.InvokeFunction(NativeContract.NEO.Hash.ToString(), "totalSupply", stack_totalSupply, signer);
             //InvokeScript
             RpcInvokeResult invokeScriptResult_totalSupply = rpcClient.InvokeScript(invokeResult_totalSupply.Script.HexToBytes());
 
@@ -122,18 +124,18 @@ namespace TestRpcClient
             //CloseWallet + when no wallet is opened
             Boolean closeResult = rpcClient.CloseWallet();
             //OpenWallet
-            Boolean openwallet = rpcClient.OpenWallet("test.json", "123");
+            Boolean openwallet = rpcClient.OpenWallet("1.json", "1");
             //DumpPrivKey
             //string privkey_null = rpcClient.DumpPrivKey("");
             //string privkey_falseFormat = rpcClient.DumpPrivKey("AcDZPbtcK8djLk5ZXLkps9XL7ee45RHkBB");
             //string privkey_addrNotInTheWallet = rpcClient.DumpPrivKey("NWyPzTPZ8sZEMHa4WC6FfdJ1ieTamTvKiE");
-            string privkey_true = rpcClient.DumpPrivKey("NikMd2j2bgVr8HzYgoJjbnwUPyXWnzjDCM");
+            string privkey_true = rpcClient.DumpPrivKey("NNB8GKS7mdMXXGsAwvXYyEGonkEjDbqNkG");
             //GetBalance
-            BigDecimal walletBalance = rpcClient.GetBalance(NativeContract.GAS.Hash.ToString());
+            BigDecimal walletBalance = rpcClient.GetWalletBalance(NativeContract.GAS.Hash.ToString());
             //GetNewAddress
             string newAddress = rpcClient.GetNewAddress();
             //GetUnclaimedGas
-            BigInteger unclaimedGas = rpcClient.GetUnclaimedGas();
+            BigInteger unclaimedGas = rpcClient.GetWalletUnclaimedGas();
             //ImportPrivKey
             byte[] privateKey = new byte[32];
             using (RandomNumberGenerator rng = RandomNumberGenerator.Create())

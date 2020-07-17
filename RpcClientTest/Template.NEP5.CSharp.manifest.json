@@ -1,16 +1,18 @@
 {"groups":[],"features":{"storage":true,"payable":true},"abi":{
-    "hash":"0x69fc86eee2bae45f31a7f5768576e82e4b49c53d",
+    "hash":"0x27c229e71e2e7b4aa8062f695586e4243ae60a49",
     "methods":
     [
         {
             "name":"deploy",
+            "offset":"0",
             "parameters":
             [
             ],
-            "returnType":"Boolean"
+            "returntype":"Boolean"
         },
         {
             "name":"migrate",
+            "offset":"258",
             "parameters":
             [
                 {
@@ -22,59 +24,75 @@
                     "type":"String"
                 }
             ],
-            "returnType":"Boolean"
+            "returntype":"Boolean"
         },
         {
             "name":"destroy",
+            "offset":"329",
             "parameters":
             [
             ],
-            "returnType":"Boolean"
+            "returntype":"Boolean"
         },
         {
             "name":"mint",
+            "offset":"459",
             "parameters":
             [
             ],
-            "returnType":"Boolean"
+            "returntype":"Boolean"
+        },
+        {
+            "name":"verify",
+            "offset":"946",
+            "parameters":
+            [
+            ],
+            "returntype":"Boolean"
         },
         {
             "name":"name",
+            "offset":"979",
             "parameters":
             [
             ],
-            "returnType":"String"
+            "returntype":"String"
         },
         {
             "name":"symbol",
+            "offset":"997",
             "parameters":
             [
             ],
-            "returnType":"String"
+            "returntype":"String"
         },
         {
             "name":"decimals",
+            "offset":"1016",
             "parameters":
             [
             ],
-            "returnType":"Integer"
+            "returntype":"Integer"
         },
         {
             "name":"supportedStandards",
+            "offset":"1023",
             "parameters":
             [
             ],
-            "returnType":"Array"
+            "returntype":"Array"
         },
         {
             "name":"totalSupply",
+            "offset":"1119",
             "parameters":
             [
             ],
-            "returnType":"Integer"
+            "returntype":"Integer"
         },
         {
             "name":"balanceOf",
+            "offset":"1170",
             "parameters":
             [
                 {
@@ -82,10 +100,11 @@
                     "type":"ByteArray"
                 }
             ],
-            "returnType":"Integer"
+            "returntype":"Integer"
         },
         {
             "name":"transfer",
+            "offset":"1274",
             "parameters":
             [
                 {
@@ -101,25 +120,17 @@
                     "type":"Integer"
                 }
             ],
-            "returnType":"Boolean"
+            "returntype":"Boolean"
+        },
+        {
+            "name":"_initialize",
+            "offset":"1776",
+            "parameters":
+            [
+            ],
+            "returntype":"Void"
         }
     ],
-    "entryPoint":
-    {
-        "name":"main",
-        "parameters":
-        [
-            {
-                "name":"operation",
-                "type":"String"
-            },
-            {
-                "name":"args",
-                "type":"Array"
-            }
-        ],
-        "returnType":"ByteArray"
-    },
     "events":
     [
         {
@@ -141,4 +152,4 @@
             ]
         }
     ]
-},"permissions":[{"contract":"*","methods":"*"}],"trusts":[],"safeMethods":[],"extra":{"Author":"Neo","Email":"dev@neo.org","Description":"This is a NEP5 example"}}
+},"permissions":[{"contract":"*","methods":"*"}],"trusts":[],"safemethods":[],"supportedstandards":["NEP-5","NEP-10"],"extra":{"Author":"Neo","Email":"dev@neo.org","Description":"This is a NEP5 example"}}

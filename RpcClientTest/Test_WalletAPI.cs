@@ -41,10 +41,10 @@ namespace TestRpcClient
             Console.WriteLine(walletAPI.ClaimGas(keyPair0).Hash);
 
             //gas, 3, new ECPoint[] { keyPair1.PublicKey, keyPair2.PublicKey, keyPair3.PublicKey, keyPair4.PublicKey }, new KeyPair[] { keyPair1, keyPair2, keyPair3, keyPair4 }, Contract.CreateSignatureContract(keyPair0.PublicKey).ScriptHash, new BigInteger(10)
-            Console.WriteLine(walletAPI.Transfer(gas, 3, new ECPoint[] { keyPair1.PublicKey, keyPair2.PublicKey, keyPair3.PublicKey, keyPair4.PublicKey }, new KeyPair[] { keyPair1, keyPair2, keyPair3 }, account0.ScriptHash, 22).Hash);
+            Console.WriteLine(walletAPI.Transfer(gas, 3, new ECPoint[] { keyPair0.PublicKey, keyPair1.PublicKey, keyPair2.PublicKey }, new KeyPair[] { keyPair0, keyPair1, keyPair2 }, account0.ScriptHash, 3).Hash);
 
-            Console.WriteLine(walletAPI.Transfer(neo.ToString(), keyPair0.Export(), account1.ScriptHash.ToString(), 166).Hash);
-            Console.WriteLine(walletAPI.Transfer(neo, keyPair0, account1.ScriptHash, 166).Hash);
+            Console.WriteLine(walletAPI.Transfer(neo.ToString(), keyPair0.Export(), account1.ScriptHash.ToString(), 4).Hash);
+            Console.WriteLine(walletAPI.Transfer(neo, keyPair0, account1.ScriptHash, 5).Hash);
         }
     }
 }

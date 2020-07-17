@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Neo.Network.RPC.RpcClient" Version="3.0.0-preview2" />
+    <ProjectReference Include="..\..\..\ProDog\neo-modules\src\RpcClient\RpcClient.csproj" />
   </ItemGroup>
 
   <ItemGroup>

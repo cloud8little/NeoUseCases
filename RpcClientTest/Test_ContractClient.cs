@@ -40,8 +40,8 @@ namespace TestRpcClient
             string currentDirectory = Directory.GetCurrentDirectory();
             DirectoryInfo rootDir = Directory.GetParent(Directory.GetParent(Directory.GetParent(currentDirectory).ToString()).ToString());
 
-            string nefFilePath = rootDir.ToString() + "\\Test.nef";
-            string manifestFilePath = rootDir.ToString() + "\\Test.manifest.json";
+            string nefFilePath = rootDir.ToString() + "\\Template.NEP5.CSharp.nef";
+            string manifestFilePath = rootDir.ToString() + "\\Template.NEP5.CSharp.manifest.json";
 
             //read nefFile & manifestFile
             NefFile nefFile;
@@ -141,9 +141,9 @@ namespace TestRpcClient
             
             UInt160 witnessAddress = Contract.CreateSignatureContract(keyPair1.PublicKey).ScriptHash;
             byte[] script = nefFile_old.ScriptHash.MakeScript("migrate", nefFile.Script, manifest.ToString());
-            Cosigner[] cosigners = new[] { new Cosigner { Scopes = WitnessScope.CalledByEntry, Account = witnessAddress } };
-            Transaction invokeTx = new TransactionManager(RpcClient, witnessAddress)
-                .MakeTransaction(script, null, cosigners)
+            Signer[] signers = new[] { new Signer { Scopes = WitnessScope.CalledByEntry, Account = witnessAddress } };
+            Transaction invokeTx = new TransactionManager(RpcClient)
+                .MakeTransaction(script, signers)
                 .AddSignature(keyPair1)
                 .Sign()
                 .Tx;
@@ -181,9 +181,9 @@ namespace TestRpcClient
 
             UInt160 witnessAddress = Contract.CreateSignatureContract(keyPair1.PublicKey).ScriptHash;
             byte[] script = nefFile.ScriptHash.MakeScript("destroy");
-            Cosigner[] cosigners = new[] { new Cosigner { Scopes = WitnessScope.CalledByEntry, Account = witnessAddress } };
-            Transaction invokeTx = new TransactionManager(RpcClient, witnessAddress)
-                .MakeTransaction(script, null, cosigners)
+            Signer[] signers = new[] { new Signer { Scopes = WitnessScope.CalledByEntry, Account = witnessAddress } };
+            Transaction invokeTx = new TransactionManager(RpcClient)
+                .MakeTransaction(script, signers)
                 .AddSignature(keyPair1)
                 .Sign()
                 .Tx;

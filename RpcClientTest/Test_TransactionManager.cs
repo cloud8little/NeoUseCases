@@ -14,9 +14,9 @@ namespace TestRpcClient
 {
     class Test_TransactionManager
     {
-        KeyPair keyPair1 = Neo.Network.RPC.Utility.GetKeyPair("Kx4G77Esuo9b8wXyDeagvJxWKPw7kK5GfVR1A5JDFqxtbNGRiWzu");
-        KeyPair keyPair2 = Neo.Network.RPC.Utility.GetKeyPair("L2F7F6HY3CtLZPUwpLeqFkfGVmTchjEBTozi9gB1NScv3aiRoEfa");
-        KeyPair keyPair3 = Neo.Network.RPC.Utility.GetKeyPair("L4bcELhSaKuDVLsf6QdsFPE5JBwdjKFWrtHVk5CfR5qMP3ZhSEno");
+        KeyPair keyPair1 = Neo.Network.RPC.Utility.GetKeyPair("L5TNJrPhrvsKhQfjX7Uyc9eaDKSpdZZZXjFmmpDCdm1kQe5ntA25");
+        KeyPair keyPair2 = Neo.Network.RPC.Utility.GetKeyPair("L4N1Yh6NkjGqoGqNhCCotpkD1PpAHyYtmC7kE4vWRS9GBNr13bFM");
+        KeyPair keyPair3 = Neo.Network.RPC.Utility.GetKeyPair("KyXXWrNkTTZN9kC5SHKLpDkSocx5uzp7o4PdQpjM6hh5okzm891C");
 
         public void Test_CreateTransferTx_SingletoMulti(RpcClient rpcClient)
         {
@@ -33,12 +33,12 @@ namespace TestRpcClient
             //script = script.Concat(new byte[] { (byte)OpCode.THROWIFNOT }).ToArray();
 
             // add Cosigners, this is a collection of scripthashs which need to be signed
-            Cosigner[] cosigners = new[] { new Cosigner { Scopes = WitnessScope.CalledByEntry, Account = sender } };
+            Signer[] signers = new[] { new Signer { Scopes = WitnessScope.CalledByEntry, Account = sender } };
 
             // initialize the TransactionManager with rpc client and sender scripthash
-            Transaction tx = new TransactionManager(rpcClient, sender)
+            Transaction tx = new TransactionManager(rpcClient)
                 // fill the script, attribute, cosigner and network fee
-                .MakeTransaction(script, null, cosigners)
+                .MakeTransaction(script, signers)
                 // add signature for the transaction with sendKey
                 .AddSignature(keyPair1)
                 // sign transaction with the added signature
@@ -70,12 +70,12 @@ namespace TestRpcClient
             //script = script.Concat(new byte[] { (byte)OpCode.THROWIFNOT }).ToArray();
 
             // add Cosigners, this is a collection of scripthashs which need to be signed
-            Cosigner[] cosigners = new[] { new Cosigner { Scopes = WitnessScope.CalledByEntry, Account = multiAccount } };
+            Signer[] signers = new[] { new Signer { Scopes = WitnessScope.CalledByEntry, Account = multiAccount } };
 
             // initialize the TransactionManager with rpc client and sender scripthash
-            Transaction tx = new TransactionManager(rpcClient, multiAccount)
+            Transaction tx = new TransactionManager(rpcClient)
                 // fill the script, attribute, cosigner and network fee, multi-sign account need to fill networkfee by user
-                .MakeTransaction(script, null, cosigners)
+                .MakeTransaction(script, signers)
                 // add multi-signature for the transaction with sendKey, at least use 2 KeyPairs
                 .AddMultiSig(keyPair3, 2, keyPair3.PublicKey, keyPair1.PublicKey, keyPair2.PublicKey)
                 .AddMultiSig(keyPair1, 2, keyPair3.PublicKey, keyPair1.PublicKey, keyPair2.PublicKey)

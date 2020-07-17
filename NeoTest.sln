@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OtherTest", "OtherTest\Othe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neo2-Test", "Neo2-Test\Neo2-Test.csproj", "{38F8E29D-23EC-43CE-BF96-8BBB48A2FBCC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RpcClient", "..\..\ProDog\neo-modules\src\RpcClient\RpcClient.csproj", "{6FAA9673-EF2D-480B-B3BB-87A3D6368E18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{38F8E29D-23EC-43CE-BF96-8BBB48A2FBCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38F8E29D-23EC-43CE-BF96-8BBB48A2FBCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38F8E29D-23EC-43CE-BF96-8BBB48A2FBCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FAA9673-EF2D-480B-B3BB-87A3D6368E18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FAA9673-EF2D-480B-B3BB-87A3D6368E18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FAA9673-EF2D-480B-B3BB-87A3D6368E18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FAA9673-EF2D-480B-B3BB-87A3D6368E18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

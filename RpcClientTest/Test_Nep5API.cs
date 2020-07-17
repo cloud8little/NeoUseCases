@@ -69,7 +69,7 @@ namespace TestRpcClient
 
         public void Test_CreateTransferTx_MultiSig()
         {            
-            Transaction tx = nep5API.CreateTransferTx(gas, 3, new ECPoint[] { keyPair1.PublicKey, keyPair2.PublicKey, keyPair3.PublicKey, keyPair4.PublicKey }, new KeyPair[] { keyPair1, keyPair2, keyPair3 }, Contract.CreateSignatureContract(keyPair0.PublicKey).ScriptHash, new BigInteger(10));
+            Transaction tx = nep5API.CreateTransferTx(gas, 3, new ECPoint[] { keyPair0.PublicKey, keyPair1.PublicKey, keyPair2.PublicKey }, new KeyPair[] { keyPair0, keyPair1, keyPair2 }, Contract.CreateSignatureContract(keyPair0.PublicKey).ScriptHash, new BigInteger(10));
 
             //broadcast
             RpcClient.SendRawTransaction(tx);
