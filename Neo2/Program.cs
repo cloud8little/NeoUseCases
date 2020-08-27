@@ -10,9 +10,9 @@ namespace Neo2_Test
 
             //Transfer.SendGasTrans();
 
-            Transfer.SendNeoTrans();
+            //Transfer.SendNeoTrans();
 
-            //DeployContract.Deploy();
+            DeployContract.Deploy();
 
             //InvokeContract.Transfer();
 

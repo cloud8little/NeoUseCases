@@ -10,9 +10,6 @@ namespace RpcClientTest
 {
     abstract class TestBase
     {
-        //address: NikMd2j2bgVr8HzYgoJjbnwUPyXWnzjDCM
-        //pubkey: 0336df43a1a74b2d2cedb97f9919489621dd2e2b37276361474c7030ffc25e2aa7
-        //ScriptHash: 0x20e22e16cfbcfdd29f347268427b76863b7679fa
         public KeyPair keyPair0 = Neo.Network.RPC.Utility.GetKeyPair("L5TNJrPhrvsKhQfjX7Uyc9eaDKSpdZZZXjFmmpDCdm1kQe5ntA25");
 
 

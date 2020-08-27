@@ -17,7 +17,7 @@ namespace Neo2_Test
     {
         public static void Deploy()
         {
-            byte[] prikey = Wallet.GetPrivateKeyFromWIF("L2byQYg4BCmV2Eu6eXs3fvwtgXZkjdAWRX4v7QryMPmN67dvapct");
+            byte[] prikey = Wallet.GetPrivateKeyFromWIF("L5VAXN9odUJgCKQ3CB8ebH6EyU3Puoh85wN687XVGHTzwymachFp");
             KeyPair keyPair = new KeyPair(prikey);
 
             var contract = Contract.CreateSignatureContract(keyPair.PublicKey);
@@ -54,8 +54,8 @@ namespace Neo2_Test
            
             ContractParameterType return_type = "05".HexToBytes().Select(p => (ContractParameterType?)p).FirstOrDefault() ?? ContractParameterType.Void;  //合约返回值类型 05 代表 ByteArray
             ContractPropertyState properties = ContractPropertyState.NoProperty;
-            properties |= ContractPropertyState.HasStorage; //是否需要使用存储 
-            properties |= ContractPropertyState.Payable; //是否支持收款  
+            //properties |= ContractPropertyState.HasStorage; //是否需要使用存储 
+            //properties |= ContractPropertyState.Payable; //是否支持收款  
             //properties |= ContractPropertyState.HasDynamicInvoke;//支持动态调用
 
             byte[] script;

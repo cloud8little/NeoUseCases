@@ -17,7 +17,7 @@ namespace Neo2_Test
     {
         public static string gas_hash = "602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7";
         public static string neo_hash = "c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b";
-        public static string api = "http://127.0.0.1:20332/?jsonrpc=2.0&id=1&";
+        public static string api = "http://127.0.0.1:10332/?jsonrpc=2.0&id=1&";
 
 
         public static TransactionAttribute[] GetAttribute(UInt160 scriptHash)

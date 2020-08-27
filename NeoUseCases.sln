@@ -5,15 +5,19 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Converter", "Converter\Converter.csproj", "{2455F8BF-45ED-46D8-B964-348C3655235C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeoTest", "NeoTest\NeoTest.csproj", "{B857B1F6-EF91-41DD-A205-07004EFDB948}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neo3", "Neo3\Neo3.csproj", "{B857B1F6-EF91-41DD-A205-07004EFDB948}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RpcClientTest", "RpcClientTest\RpcClientTest.csproj", "{F865C768-391B-4E78-8B6D-DB816A31CEED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RpcClient", "RpcClient\RpcClient.csproj", "{F865C768-391B-4E78-8B6D-DB816A31CEED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OtherTest", "OtherTest\OtherTest.csproj", "{A74E1CBB-5D6C-4B35-91E3-7B37C873390C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neo2-Test", "Neo2-Test\Neo2-Test.csproj", "{38F8E29D-23EC-43CE-BF96-8BBB48A2FBCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neo2", "Neo2\Neo2.csproj", "{38F8E29D-23EC-43CE-BF96-8BBB48A2FBCC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RpcClient", "..\..\ProDog\neo-modules\src\RpcClient\RpcClient.csproj", "{6FAA9673-EF2D-480B-B3BB-87A3D6368E18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvcApiTest", "MvcApiTest\MvcApiTest.csproj", "{F2AE092C-A184-444A-934A-99A0DE233815}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "neo", "..\..\PR-Test\shargon\neo\src\neo\neo.csproj", "{7EBDDDF1-444E-4559-AD92-7E56888732C1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RpcClient", "..\..\ProDog\neo-modules\src\RpcClient\RpcClient.csproj", "{720FD8A7-9A57-4B67-B463-237673591943}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +45,18 @@ Global
 		{38F8E29D-23EC-43CE-BF96-8BBB48A2FBCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38F8E29D-23EC-43CE-BF96-8BBB48A2FBCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38F8E29D-23EC-43CE-BF96-8BBB48A2FBCC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6FAA9673-EF2D-480B-B3BB-87A3D6368E18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6FAA9673-EF2D-480B-B3BB-87A3D6368E18}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6FAA9673-EF2D-480B-B3BB-87A3D6368E18}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6FAA9673-EF2D-480B-B3BB-87A3D6368E18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2AE092C-A184-444A-934A-99A0DE233815}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2AE092C-A184-444A-934A-99A0DE233815}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2AE092C-A184-444A-934A-99A0DE233815}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2AE092C-A184-444A-934A-99A0DE233815}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EBDDDF1-444E-4559-AD92-7E56888732C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EBDDDF1-444E-4559-AD92-7E56888732C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EBDDDF1-444E-4559-AD92-7E56888732C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EBDDDF1-444E-4559-AD92-7E56888732C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{720FD8A7-9A57-4B67-B463-237673591943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{720FD8A7-9A57-4B67-B463-237673591943}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{720FD8A7-9A57-4B67-B463-237673591943}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{720FD8A7-9A57-4B67-B463-237673591943}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

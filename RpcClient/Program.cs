@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using System.Text;
 using Neo;
@@ -23,8 +24,12 @@ namespace TestRpcClient
         {
             RpcClient rpcClient = new RpcClient("http://localhost:10332");
 
-            //Test_WalletAPI test_WalletAPI = new Test_WalletAPI(rpcClient);
-            //test_WalletAPI.Run();
+            UInt160 scriptHash = NativeContract.NEO.Hash; 
+            byte[] script = scriptHash.MakeScript("name"); 
+            var name = rpcClient.InvokeScript(script).Stack.Single().GetString();
+
+            Test_WalletAPI test_WalletAPI = new Test_WalletAPI(rpcClient);
+            test_WalletAPI.Run();
 
             //Test_ContractClient test_ContractClient = new Test_ContractClient(rpcClient);
             //test_ContractClient.Run();

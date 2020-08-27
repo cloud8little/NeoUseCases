@@ -28,7 +28,9 @@ namespace TestRpcClient
 
         public override void Run()
         {
-            Test_CreateDeployContractTx();
+            //Test_CreateDeployContractTx();
+
+            //ContractState contractState = RpcClient.GetContractState("0xf621168b1fce3a89c33a5f6bcf7e774b4657031c");
 
             //Test_Migrate();
 

@@ -100,12 +100,7 @@ namespace TestRpcClient
             string script = invokeResult_balanceOf.Script;
             string engineState = invokeResult_balanceOf.State.ToString();
             long gasConsumed = long.Parse(invokeResult_balanceOf.GasConsumed);
-            ContractParameter[] resultStacks = invokeResult_balanceOf.Stack;
-            foreach (var item in resultStacks)
-            {
-                ContractParameterType contractParameterType = item.Type;
-                object value = item.Value;
-            }
+          
             string transaction = invokeResult_balanceOf.Tx;
         }
 
