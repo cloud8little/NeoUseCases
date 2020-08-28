@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using Neo.Network.RPC;
 using Utility = Neo.Network.RPC.Utility;
+using System.Security.Cryptography;
 
 namespace NeoTest
 {
@@ -88,6 +89,23 @@ namespace NeoTest
             Console.WriteLine("sign data:"+ Convert.ToBase64String(signData));
         }
 
-       
+
+        private static void CreateAccount()
+        {
+            byte[] privateKey = new byte[32];
+            using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(privateKey);
+            }
+            KeyPair key = new KeyPair(privateKey);
+
+            var publicKey = key.PublicKey.ToString();
+            var wif = key.Export();
+            var contract = Contract.CreateSignatureContract(key.PublicKey);
+            var address = contract.Address;
+            var scriptHash = contract.ScriptHash;
+
+        }
+
     }
 }
