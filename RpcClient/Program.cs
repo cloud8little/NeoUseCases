@@ -26,7 +26,9 @@ namespace TestRpcClient
 
             UInt160 scriptHash = NativeContract.NEO.Hash; 
             byte[] script = scriptHash.MakeScript("name"); 
-            var name = rpcClient.InvokeScript(script).Stack.Single().GetString();
+            var name = rpcClient.InvokeScript(script).Result.Stack.Single().GetString();
+
+            Console.WriteLine("name:" + name);
 
             Test_WalletAPI test_WalletAPI = new Test_WalletAPI(rpcClient);
             test_WalletAPI.Run();

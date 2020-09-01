@@ -38,12 +38,12 @@ namespace TestRpcClient
         {            
             string addr1 = Contract.CreateSignatureRedeemScript(keyPair0.PublicKey).ToScriptHash().ToAddress();
 
-            BigInteger balance = nep5API.BalanceOf(NativeContract.GAS.Hash, Neo.Network.RPC.Utility.GetScriptHash(addr1));
-            string name = nep5API.Name(NativeContract.GAS.Hash);
-            string symbol = nep5API.Symbol(NativeContract.GAS.Hash);
-            uint decimals = nep5API.Decimals(NativeContract.GAS.Hash);
-            BigInteger totalSupply = nep5API.TotalSupply(NativeContract.GAS.Hash);
-            RpcNep5TokenInfo nep5TokenInfo = nep5API.GetTokenInfo(NativeContract.GAS.Hash);
+            BigInteger balance = nep5API.BalanceOf(NativeContract.GAS.Hash, Neo.Network.RPC.Utility.GetScriptHash(addr1)).Result;
+            string name = nep5API.Name(NativeContract.GAS.Hash).Result;
+            string symbol = nep5API.Symbol(NativeContract.GAS.Hash).Result;
+            uint decimals = nep5API.Decimals(NativeContract.GAS.Hash).Result;
+            BigInteger totalSupply = nep5API.TotalSupply(NativeContract.GAS.Hash).Result;
+            RpcNep5TokenInfo nep5TokenInfo = nep5API.GetTokenInfo(NativeContract.GAS.Hash).Result;
 
             Console.WriteLine();
         }
@@ -52,7 +52,7 @@ namespace TestRpcClient
         {
             UInt160 addr = Contract.CreateSignatureContract(keyPair1.PublicKey).ScriptHash;
 
-            Transaction tx = nep5API.CreateTransferTx(gas, keyPair0, addr, new BigInteger(5));
+            Transaction tx = nep5API.CreateTransferTx(gas, keyPair0, addr, new BigInteger(5)).Result;
 
             //broadcast
             RpcClient.SendRawTransaction(tx);
@@ -69,7 +69,7 @@ namespace TestRpcClient
 
         public void Test_CreateTransferTx_MultiSig()
         {            
-            Transaction tx = nep5API.CreateTransferTx(gas, 3, new ECPoint[] { keyPair0.PublicKey, keyPair1.PublicKey, keyPair2.PublicKey }, new KeyPair[] { keyPair0, keyPair1, keyPair2 }, Contract.CreateSignatureContract(keyPair0.PublicKey).ScriptHash, new BigInteger(10));
+            Transaction tx = nep5API.CreateTransferTx(gas, 3, new ECPoint[] { keyPair0.PublicKey, keyPair1.PublicKey, keyPair2.PublicKey }, new KeyPair[] { keyPair0, keyPair1, keyPair2 }, Contract.CreateSignatureContract(keyPair0.PublicKey).ScriptHash, new BigInteger(10)).Result;
 
             //broadcast
             RpcClient.SendRawTransaction(tx);

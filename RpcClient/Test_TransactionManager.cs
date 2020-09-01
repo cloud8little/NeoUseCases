@@ -42,8 +42,7 @@ namespace TestRpcClient
                 // add signature for the transaction with sendKey
                 .AddSignature(keyPair1)
                 // sign transaction with the added signature
-                .Sign()
-                .Tx;
+                .SignAsync().Result;
 
             // broadcasts transaction over the NEO network.
             rpcClient.SendRawTransaction(tx);
@@ -80,8 +79,7 @@ namespace TestRpcClient
                 .AddMultiSig(keyPair3, 2, keyPair3.PublicKey, keyPair1.PublicKey, keyPair2.PublicKey)
                 .AddMultiSig(keyPair1, 2, keyPair3.PublicKey, keyPair1.PublicKey, keyPair2.PublicKey)
                 // sign the transaction with the added signature
-                .Sign()
-                .Tx;
+                .SignAsync().Result;
 
             // broadcast the transaction over the NEO network.
             rpcClient.SendRawTransaction(tx);

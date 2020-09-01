@@ -57,7 +57,7 @@ namespace TestRpcClient
             Console.WriteLine("contract hash:" + nefFile.ScriptHash);
 
             //deploy contract
-            var tx = contractClient.CreateDeployContractTx(nefFile.Script, manifest, keyPair1);
+            var tx = contractClient.CreateDeployContractTx(nefFile.Script, manifest, keyPair1).Result;
 
             //broadcast
             RpcClient.SendRawTransaction(tx);
@@ -147,8 +147,7 @@ namespace TestRpcClient
             Transaction invokeTx = new TransactionManager(RpcClient)
                 .MakeTransaction(script, signers)
                 .AddSignature(keyPair1)
-                .Sign()
-                .Tx;
+                .SignAsync().Result;
             RpcClient.SendRawTransaction(invokeTx);
             Console.WriteLine($"Transaction {invokeTx.Hash.ToString()} is broadcasted!");
             WalletAPI neoAPI = new WalletAPI(RpcClient);
@@ -157,9 +156,9 @@ namespace TestRpcClient
 
             //getContractState + here add wait a block
             //get old contract, return unknown contract
-            ContractState contractState_old = RpcClient.GetContractState(nefFile_old.ScriptHash.ToString());
+            ContractState contractState_old = RpcClient.GetContractState(nefFile_old.ScriptHash.ToString()).Result;
             //get new contract, id should be the same as before
-            ContractState contractState_new = RpcClient.GetContractState(nefFile.ScriptHash.ToString());
+            ContractState contractState_new = RpcClient.GetContractState(nefFile.ScriptHash.ToString()).Result;
 
             //getstorage
         }
@@ -187,8 +186,7 @@ namespace TestRpcClient
             Transaction invokeTx = new TransactionManager(RpcClient)
                 .MakeTransaction(script, signers)
                 .AddSignature(keyPair1)
-                .Sign()
-                .Tx;
+                .SignAsync().Result;
             RpcClient.SendRawTransaction(invokeTx);
             Console.WriteLine($"Transaction {invokeTx.Hash.ToString()} is broadcasted!");
             WalletAPI neoAPI = new WalletAPI(RpcClient);

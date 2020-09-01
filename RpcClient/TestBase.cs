@@ -10,18 +10,19 @@ namespace RpcClientTest
 {
     abstract class TestBase
     {
+        //   Address: NNU67Fvdy3LEQTM374EJ9iMbCRxVExgM8Y
+        //ScriptHash: 0xf621168b1fce3a89c33a5f6bcf7e774b4657031c
+        // PublicKey: 0222d8515184c7d62ffa99b829aeb4938c4704ecb0dd7e340e842e9df121826343
         public KeyPair keyPair0 = Neo.Network.RPC.Utility.GetKeyPair("L5TNJrPhrvsKhQfjX7Uyc9eaDKSpdZZZXjFmmpDCdm1kQe5ntA25");
 
-
-        //1-4 Multisig Addr: Nf3PBXyVc7vrL19egUUvJhWfHuBP2mLGPX
-        //address: NYzbJ4vhBXmk9QBDtpCiVgF98QJxsJBYFC
-        //pubkey: 0378c824e55a8b906adcc6981fdda1e1062e000aeee03fc74f4e9d9b07fd6062ab
-        //ScriptHash: 0x50255c4a704b280d1009cacd275216e1f070798f
+        //   Address: NNB8GKS7mdMXXGsAwvXYyEGonkEjDbqNkG
+        //ScriptHash: 0xb120f50f804d3a203c43475212894ab1c911ce18
+        // PublicKey: 028bd1902c4d1419f002b821e6de653ddfd5358063208e426756398be6ffa3aac8
         public KeyPair keyPair1 = Neo.Network.RPC.Utility.GetKeyPair("L4N1Yh6NkjGqoGqNhCCotpkD1PpAHyYtmC7kE4vWRS9GBNr13bFM");
 
-        //address:  
-        //pubkey: 02bee9d67363d5d5834c5b307994e7e6b5411b4653ddb3c4fe74b270e1418f6a15
-        //ScriptHash: 0x87e3b7c7007cc71f3482f29d2ceed612addb74f8
+        //   Address: NiAWtLyWRfVWkUf7WwooiedTaGZ76yPqCu
+        //ScriptHash: 0x648a20b684e66833f38769b7b0b993d4680d13f4
+        // PublicKey: 02967610b1b4f7b84a861d6e0b79047712c1a4b9638156ce1f3891189fb9e41690
         public KeyPair keyPair2 = Neo.Network.RPC.Utility.GetKeyPair("KyXXWrNkTTZN9kC5SHKLpDkSocx5uzp7o4PdQpjM6hh5okzm891C");
 
 

@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Converter", "Converter\Conv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neo3", "Neo3\Neo3.csproj", "{B857B1F6-EF91-41DD-A205-07004EFDB948}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RpcClient", "RpcClient\RpcClient.csproj", "{F865C768-391B-4E78-8B6D-DB816A31CEED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RpcUse", "RpcClient\RpcUse.csproj", "{F865C768-391B-4E78-8B6D-DB816A31CEED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neo2", "Neo2\Neo2.csproj", "{38F8E29D-23EC-43CE-BF96-8BBB48A2FBCC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "neo", "..\..\PR-Test\shargon\neo\src\neo\neo.csproj", "{7EBDDDF1-444E-4559-AD92-7E56888732C1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RpcClient", "..\..\ProDog\neo-modules\src\RpcClient\RpcClient.csproj", "{720FD8A7-9A57-4B67-B463-237673591943}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RpcClient", "..\..\PR-Test\devhawk\neo-modules\src\RpcClient\RpcClient.csproj", "{0D5899D0-7F63-4F0F-9571-42E180F99CDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{7EBDDDF1-444E-4559-AD92-7E56888732C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EBDDDF1-444E-4559-AD92-7E56888732C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EBDDDF1-444E-4559-AD92-7E56888732C1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{720FD8A7-9A57-4B67-B463-237673591943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{720FD8A7-9A57-4B67-B463-237673591943}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{720FD8A7-9A57-4B67-B463-237673591943}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{720FD8A7-9A57-4B67-B463-237673591943}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D5899D0-7F63-4F0F-9571-42E180F99CDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D5899D0-7F63-4F0F-9571-42E180F99CDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D5899D0-7F63-4F0F-9571-42E180F99CDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D5899D0-7F63-4F0F-9571-42E180F99CDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
