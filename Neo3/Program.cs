@@ -39,11 +39,11 @@ namespace NeoTest
         {
             ContractClient contractClient = new ContractClient(rpcClient);
 
-            UInt160 contractHash = UInt160.Parse("0x1f86b7327fce941efc789fc257d351dcfc9bd0cf");
+            UInt160 contractHash = UInt160.Parse("0xde5f57d430d3dece511cf975a8d37848cb9e0525");
 
-            var res = contractClient.TestInvoke(contractHash, "name").Stack.Single().ToStackItem().GetString();
+            //var res = contractClient.TestInvoke(contractHash, "name").Stack.Single().ToStackItem().GetString();
 
-            Console.WriteLine(res);
+            //Console.WriteLine(res);
 
 
             Console.Write("wif:");
@@ -53,12 +53,13 @@ namespace NeoTest
             UInt160 sender = Contract.CreateSignatureContract(sendKey.PublicKey).ScriptHash;
 
             // add Cosigners, which is a collection of scripthashs that need to be signed
-            Cosigner[] cosigners = new[] { new Cosigner { Scopes = WitnessScope.CalledByEntry, Account = sender } };
+            Signer[] cosigners = new[] { new Signer { Scopes = WitnessScope.CalledByEntry, Account = sender } };
 
-            UInt160 receiver = UInt160.Parse("0x0ae69efc8c2a3a858238e5434e7a873ead6e8b84");
-            byte[] script = contractHash.MakeScript("transfer", sender, receiver, 20032);
+            UInt160 receiver = UInt160.Parse("0x3e69ee60d2b8b5e33a958df3ec67125902b2099c");
+            byte[] script = contractHash.MakeScript("transfer", sender, receiver, 100);
 
-            Transaction tx = new TransactionManager(rpcClient, sender).MakeTransaction(script, null, cosigners).AddSignature(sendKey).Sign().Tx;
+            //Transaction tx = new TransactionManager(rpcClient, sender).MakeTransaction(script, null, cosigners).AddSignature(sendKey).Sign().Tx
+            Transaction tx = new TransactionManager(rpcClient).MakeTransaction(script, signers: cosigners).AddSignature(sendKey).Sign().Tx;
 
             var hash = rpcClient.SendRawTransaction(tx);
 

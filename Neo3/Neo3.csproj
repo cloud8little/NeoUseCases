@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Neo" Version="3.0.0-CI00872" />
+    <PackageReference Include="Neo" Version="3.0.0-CI01011" />
   </ItemGroup>
 
   <ItemGroup>
